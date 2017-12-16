@@ -16,3 +16,5 @@ Database.class.php
 HttpDownload.class.php
 Tree.class.php
 Zip.class.php
+5、admin后台安装:localhost/install  
+5、后台登录地址localhost/admin  账号密码:admin
