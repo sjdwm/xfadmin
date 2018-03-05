@@ -17,4 +17,14 @@ HttpDownload.class.php
 Tree.class.php
 Zip.class.php
 5、admin后台安装:localhost/install  
-5、后台登录地址localhost/admin  账号密码:admin
+6、后台登录地址localhost/admin  账号密码:admin
+7、有的环境.htaccess URL重写方法以及遇到No input file specified的解决方法
+在Fastcgi模式下，php不支持rewrite的目标网址的PATH_INFO的解析，当我们的 ThinkPHP运行在URL_MODEL=2时，就会出现
+ No input file specified.的情况， 
+
+这时可以修改网站目录的.htaccess文件： 
+将 
+RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L] 
+改为 RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L] 
+
+就可以了。
