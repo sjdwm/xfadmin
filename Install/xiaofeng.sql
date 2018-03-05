@@ -240,7 +240,7 @@ CREATE TABLE `xf_links` (
   `o` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `o` (`o`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 --
 -- Dumping data for table `xf_links`
@@ -249,6 +249,7 @@ CREATE TABLE `xf_links` (
 
 LOCK TABLES `xf_links` WRITE;
 /*!40000 ALTER TABLE `xf_links` DISABLE KEYS */;
+INSERT INTO `xf_links` VALUES ('1', '小风博客', 'http://hotxf.com', '', '0');
 /*!40000 ALTER TABLE `xf_links` ENABLE KEYS */;
 UNLOCK TABLES;
 

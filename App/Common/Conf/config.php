@@ -20,6 +20,7 @@ return array(
     'DB_LEVEL' => '9',         //压缩级别   1:普通   4:一般   9:最高
     //扩展配置文件
     'LOAD_EXT_CONFIG' => 'db',
+    'SITENAME' => '小风博客', //标题
     //***********************************URL*************************************
     'URL_MODEL'             =>  2,                            // 为了兼容性更好而设置成1 如果确认服务器开启了mod_rewrite 请设置为 2
     'URL_CASE_INSENSITIVE'  =>  false,                        // 区分url大小写
