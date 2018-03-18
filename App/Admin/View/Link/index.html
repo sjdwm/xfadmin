@@ -55,10 +55,10 @@
                                         </td>
                                         <td><a href="{$val['url']}" target="_blank">{$val['url']}</a></td>
                                         <td>{$val['o']}</td>
-                                        <td><a href="{:U('edit',array('id'=>$val['id']))}"><i
-                                                class="ace-icon fa fa-pencil bigger-100"></i>修改</a>&nbsp&nbsp;<a
+                                        <td><a class="bbtn bbtn-primary" href="{:U('edit',array('id'=>$val['id']))}"><i
+                                                class="ace-icon fa fa-pencil bigger-100"></i>修改</a>&nbsp&nbsp;<a class=" bbtn bbtn-danger del"
                                                 href="javascript:;" val="{:U('del',array('ids'=>$val['id']))}"
-                                                class="dellink"><i class="ace-icon fa fa-trash-o bigger-100 red"></i>删除</a>
+                                                class="dellink"><i class="ace-icon fa fa-trash-o bigger-100 "></i>删除</a>
                                         </td>
                                     </tr>
                                 </volist>
