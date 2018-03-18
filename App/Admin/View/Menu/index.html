@@ -57,8 +57,8 @@
                                                 </if>
                                             </td>
                                             <td>{$val['o']}</td>
-                                            <td class="center"><a href="{:U('edit',array('id'=>$val['id']))}">修改</a>&nbsp;<a
-                                                    class="del" href="javascript:;" val="{:U('del',array('ids'=>$val['id']))}"
+                                            <td class="center"><a class="bbtn bbtn-primary" href="{:U('edit',array('id'=>$val['id']))}">修改</a>&nbsp;<a
+                                                    class="del bbtn bbtn-danger" href="javascript:;" val="{:U('del',array('ids'=>$val['id']))}"
                                                     title="删除">删除</a></td>
                                         </tr>
                                         <notempty name="val.children">
@@ -78,8 +78,8 @@
                                                         </if>
                                                     </td>
                                                     <td>{$v['o']}</td>
-                                                    <td class="center"><a href="{:U('edit',array('id'=>$v['id']))}">修改</a>&nbsp;<a
-                                                            class="del" href="javascript:;"
+                                                    <td class="center"><a class="bbtn bbtn-primary" href="{:U('edit',array('id'=>$v['id']))}">修改</a>&nbsp;<a
+                                                            class="del bbtn bbtn-danger" href="javascript:;"
                                                             val="{:U('del',array('ids'=>$v['id']))}" title="删除">删除</a></td>
                                                 </tr>
                                                 <notempty name="v.children">

@@ -107,8 +107,8 @@
                                             <td>{$val['phone']}</td>
                                             <td>{$val['qq']}</td>
                                             <td>{$val['email']}</td>
-                                            <td class="center"><a href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
-                                                <if condition="$val['uid'] neq 1"><a class="del" href="javascript:;"
+                                            <td class="center"><a class="bbtn bbtn-primary" href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
+                                                <if condition="$val['uid'] neq 1"><a class="del bbtn bbtn-danger" href="javascript:;"
                                                                                      val="{:U('del',array('uid'=>$val['uid']))}"
                                                                                      title="删除">删除</a></if>
                                             </td>

@@ -50,9 +50,9 @@
                                         <td>{$table.create_time}</td>
                                         <td class="info">未备份</td>
                                         <td class="action">
-                                            <a class="ajax-get no-refresh"
+                                            <a class="ajax-get no-refresh bbtn bbtn-success"
                                                href="{:U('Database/optimize?tables='.$table['name'])}">优化表</a>&nbsp;
-                                            <a class="ajax-get no-refresh"
+                                            <a class="ajax-get no-refresh bbtn bbtn-primary"
                                                href="{:U('Database/repair?tables='.$table['name'])}">修复表</a>
                                         </td>
                                     </tr>
