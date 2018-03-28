@@ -27,12 +27,39 @@
                             <thead>
                             <tr>
                                 <th class="col-xs-7">分类名称</th>
+                                <th class="col-xs-1">URL</th>
                                 <th class="col-xs-1">排序</th>
                                 <th class="col-xs-2">操作</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <if condition="!empty($category)">
+                             <foreach name="category" item="val">
+                        <tr>
+                            <td>{$val['_name']}</td>
+                            <!-- <td>{$v['name']}</td> -->
+                            <td>{$val['dir']==''?$val['url']:$val['dir']}</td>
+                             <td>
+                            <input name="o" class="inputorder" type="number" value="{$val['o']}"
+                                                         val="{$val['id']}"/>
+                                          
+                            </td>
+                            <td>
+                                <a class="green" href="{:U('add',array('pid'=>$val['id']))}"
+                                                     title="新增分类"><i class="ace-icon fa fa-plus-circle bigger-100"></i>新增</a>&nbsp;&nbsp;
+                                <a class="blue" href="{:U('edit',array('id'=>$val['id']))}"
+                                                     title="编辑分类"><i class="ace-icon fa fa-plus-circle bigger-100"></i>编辑</a>&nbsp;&nbsp;
+                                <a class="red del" href="javascript:void(0);" val="{$val['id']}"
+                                                     title="删除分类"><i class="ace-icon fa fa-plus-circle bigger-100"></i>删除</a>
+                                            
+                            </td>
+                           <!--  <td>
+                                <a href="javascript:;" ruleId="{$v['id']}" onclick="add_child(this)">添加子权限</a> |
+                                <a href="javascript:;" ruleId="{$v['id']}" ruleName="{$v['name']}" ruleTitle="{$v['title']}" onclick="edit(this)">修改</a> |
+                                <a href="javascript:if(confirm('确定删除？'))location='{:U('Admin/Rule/delete',array('id'=>$v['id']))}'">删除</a>
+                            </td> -->
+                        </tr>
+                    </foreach>
+                        <!--     <if condition="!empty($category)">
                                 <php>
                                     function showTree($data,$pre=null) {
 
@@ -82,7 +109,7 @@
                                 <tr>
                                     <td colspan="3">无分类</td>
                                 </tr>
-                            </if>
+                            </if> -->
                             </tbody>
                         </table>
                         <!-- PAGE CONTENT ENDS -->

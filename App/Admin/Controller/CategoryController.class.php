@@ -10,7 +10,7 @@
  **/
 
 namespace Admin\Controller;
-
+use Common\Org\Data;
 use Vendor\Tree;
 
 class CategoryController extends ComController
@@ -19,13 +19,14 @@ class CategoryController extends ComController
     public function index()
     {
 
-
-        $category = M('category')->field('id,pid,name,o')->order('o asc')->select();
-        $category = $this->getMenu($category);
+        //修改3级不显示问题
+        $data = M('category')->field('id,pid,name,dir,url,o')->order('o asc')->select();
+        //$category = $this->getMenu($category);
+        $category = $data=Data::tree($data,'name','id','pid');//dump($category);exit;
         $this->assign('category', $category);
         $this->display();
     }
-
+    
     public function del()
     {
 

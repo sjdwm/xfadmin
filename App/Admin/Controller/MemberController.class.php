@@ -119,7 +119,9 @@ class MemberController extends ComController
         }
 
         $usergroup = M('auth_group')->field('id,title')->select();
+        $usergroup_access = M('auth_group_access')->where(array('uid'=>$uid))->getField('group_id',true);
         $this->assign('usergroup', $usergroup);
+        $this->assign('usergroup_access', $usergroup_access);
 
         $this->assign('member', $member);
         $this->display('form');
@@ -136,7 +138,7 @@ class MemberController extends ComController
 
         $uid = isset($_POST['uid']) ? intval($_POST['uid']) : false;
         $user = isset($_POST['user']) ? htmlspecialchars($_POST['user'], ENT_QUOTES) : '';
-        $group_id = isset($_POST['group_id']) ? intval($_POST['group_id']) : 0;
+        $group_id = I('post.group_ids');
         if (!$group_id) {
             $this->error('请选择用户组！');
         }
@@ -166,11 +168,26 @@ class MemberController extends ComController
             }
             $data['user'] = $user;
             $uid = M('member')->data($data)->add();
-            M('auth_group_access')->data(array('group_id' => $group_id, 'uid' => $uid))->add();
+            foreach ($group_id as $k => $v) {
+                $group=array(
+                    'uid'=>$uid,
+                    'group_id'=>$v
+                    );
+                D('AuthGroupAccess')->add($group);
+            }
             addlog('新增会员，会员UID：' . $uid);
         } else {
-            M('auth_group_access')->data(array('group_id' => $group_id))->where("uid=$uid")->save();
-            addlog('编辑会员信息，会员UID：' . $uid);
+         
+            // 修改权限,先删除
+            D('AuthGroupAccess')->where(array('uid'=>$uid))->delete();
+            foreach ($group_id as $k => $v) {
+                $group=array(
+                    'uid'=>$uid,
+                    'group_id'=>$v
+                    );
+                D('AuthGroupAccess')->add($group);
+            }
+            // addlog('编辑会员信息，会员UID：' . $uid);
             M('member')->data($data)->where("uid=$uid")->save();
 
         }
