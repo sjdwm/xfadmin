@@ -3,6 +3,7 @@
  * 数据处理类
  * @package     tools_class
  * @author      向军
+ * @edit        80行修改,107行
  */
 namespace Common\Org;
 final class Data
@@ -77,6 +78,8 @@ final class Data
         $arr = array();
         foreach ($data as $v) {
             $id = $v[$fieldPri];
+            //如果id为空会生出很多日志文件,为空就退出程序，sjd 20181203
+            if(empty($id)){return array();}
             if ($v[$fieldPid] == $pid) {
                 $v['_level'] = $level;
                 $v['_html'] = str_repeat($html, $level - 1);
@@ -101,6 +104,7 @@ final class Data
         if (!is_array($data) || empty($data))
             return array();
         $arr = Data::channelList($data, 0, '', $fieldPri, $fieldPid);
+        $arr = array_values($arr);//修复└─├─显示不正确,sjd 20180516
         foreach ($arr as $k => $v) {
             $str = "";
             if ($v['_level'] > 2) {
@@ -118,7 +122,7 @@ final class Data
             } else {
                 $arr[$k]['_name'] = $v[$title];
             }
-        }
+        }//dump($arr);exit;
         //设置主键为$fieldPri
         $data = array();
         foreach ($arr as $d) {
