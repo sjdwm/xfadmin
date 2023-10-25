@@ -9,7 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 namespace Common\Org;
-//修改版的分页
+//修改版的分页(bug处理,页数存在负数已经修复hotxf.com)
 class Page{
     public $firstRow; // 起始行数
     public $listRows; // 列表每页显示行数
@@ -89,27 +89,35 @@ class Page{
         /* 计算分页临时变量 */
         $now_cool_page      = $this->rollPage/2;
 		$now_cool_page_ceil = ceil($now_cool_page);
-		//$this->lastSuffix && $this->config['last'] = $this->totalPages;
-
+		$this->lastSuffix && $this->config['last'] = $this->totalPages;
+        $this->config['last'] = '尾页';
         //上一页
         $up_row  = $this->nowPage - 1;
+        if($this->totalPages >1){
         $up_page = $up_row > 0 ? '<a class="prev" href="' . $this->url($up_row) . '">' . $this->config['prev'] . '</a>' : '<a class="next" >'. $this->config['prev'] .'</a>';
 
         //下一页
         $down_row  = $this->nowPage + 1;
         $down_page = ($down_row <= $this->totalPages) ? '<a class="next" href="' . $this->url($down_row) . '">' . $this->config['next'] . '</a>' : '<a class="next" >'. $this->config['next'] .'</a>';
 
+        $header = $this->config['header'];
+        }
         //第一页
         //$the_first = '';
         //if($this->totalPages > $this->rollPage && ($this->nowPage - $now_cool_page) >= 1){
+        if($this->totalPages >1){
             $the_first = '<a class="first" href="' . $this->url(1) . '">' . $this->config['first'] . '</a>';
+        }
+        
         //}
 
         //最后一页
-        $the_end = '';
-        if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
+        //$the_end = '';
+        //if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
+        if($this->totalPages >1){
             $the_end = '<a class="end" href="' . $this->url($this->totalPages) . '">' . $this->config['last'] . '</a>';
         }
+        //}
 
         //数字连接
         $link_page ='';
@@ -129,14 +137,16 @@ class Page{
                     break;
                 }
             }else{
-                    $link_page .= '<span class="current">' . $page . '</span>';
+if($page > 0 && $this->totalPages != 1){
+                    $link_page .= '<span class="current" style="color: #fff;cursor: default;background-color: #337ab7;border-color: #337ab7;">' . $page . '</span>';
+    }
             }
         }
 
         //替换分页内容
         $page_str = str_replace(
             array('%HEADER%', '%NOW_PAGE%', '%UP_PAGE%', '%DOWN_PAGE%', '%FIRST%', '%LINK_PAGE%', '%END%', '%TOTAL_ROW%', '%TOTAL_PAGE%'),
-            array($this->config['header'], $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
+            array($header, $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
             $this->config['theme']);
         return "<div style='text-align: center;'>{$page_str}</div>";
     }
