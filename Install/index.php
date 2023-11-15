@@ -2,7 +2,7 @@
 
 include 'auto.php';
 if(IS_SAE)
-header("Location: index_sae.php");
+//header("Location: index_sae.php");
 
 if (file_exists('./install.lock')) {
     echo '
@@ -28,7 +28,7 @@ date_default_timezone_set('PRC');
 error_reporting(E_ALL & ~E_NOTICE);
 header('Content-Type: text/html; charset=UTF-8');
 define('SITEDIR', _dir_path(substr(dirname(__FILE__), 0, -8)));
-define("TP_SHOP_VERSION", '20160501');
+define("XF_ADMIN_VERSION", '20170524');
 
 //数据库
 $sqlFile = 'xiaofeng.sql';
@@ -92,6 +92,12 @@ switch ($step) {
             $mysql = '<span class="correct_span">&radic;</span> 已安装';
         } else {
             $mysql = '<span class="correct_span error_span">&radic;</span> 请安装mysqli扩展';
+            $err++;
+        }
+        if (extension_loaded('pdo_mysql')) {
+            $pdo_mysql = '<span class="correct_span">&radic;</span> 已安装';
+        } else {
+            $pdo_mysql = '<span class="correct_span error_span">&radic;</span> 请安装php_pdo_mysql扩展';
             $err++;
         }
         if (ini_get('file_uploads')) {

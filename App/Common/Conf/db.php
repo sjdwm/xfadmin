@@ -13,7 +13,7 @@ return array(
     'DB_HOST' => 'localhost', //数据库主机
     'DB_NAME' => 'xfadmin', //数据库名称
     'DB_USER' => 'root', //数据库用户名
-    'DB_PWD' => '', //数据库密码
+    'DB_PWD' => 'root', //数据库密码
     'DB_PORT' => '3306', //数据库端口
     'DB_PREFIX' => 'xf_', //数据库前缀
 	'DB_CHARSET'=> 'utf8', // 字符集

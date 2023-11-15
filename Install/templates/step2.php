@@ -71,6 +71,12 @@
           <td>必须开启</td>
           <td><?php echo $mysql; ?></td>
           <td>启用</td>
+        </tr> 
+        <tr>
+          <td>php_pdo_mysql</td>
+          <td>必须开启</td>
+          <td><?php echo $pdo_mysql; ?></td>
+          <td>启用</td>
         </tr>        
       </table>
       <table width="100%">
