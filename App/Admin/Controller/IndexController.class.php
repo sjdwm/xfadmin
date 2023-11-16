@@ -16,23 +16,36 @@ class IndexController extends ComController
     public function index()
     {
 
-        $model = new \Think\Model();
+       $model = M('users');
         $mysql = $model->query("select VERSION() as mysql");
-        $p = isset($_GET['p']) ? intval($_GET['p']) : '1';
-        $t = time() - 3600 * 24 * 60;
-        $log = M('log');
-        $log->where("t < $t")->delete();//删除60天前的日志
-        $pagesize = 25;#每页数量
-        $offset = $pagesize * ($p - 1);//计算记录偏移量
-        $count = $log->count();
-        $list = $log->order('id desc')->limit($offset . ',' . $pagesize)->select();
-        $page = new \Think\Page($count, $pagesize);
-        $page = $page->show();
-        $this->assign('list', $list);
-        $this->assign('page', $page);
-
+        $count = $model->count();
+        //以下是统计近十五天内增加的用户数量
+        $i =0;
+        $arr =array();
+        for($i;$i<15;$i++)
+        {
+            $j =$i - 1;
+            $arr[$i] =$this -> day_add(time(),'-'.$i.' day','-'.$j.' day');
+        }
+        //留言条数
+        //$liuyan=M('comment')->count('cmtid');
         $this->assign('mysql', $mysql[0]['mysql']);
-        $this->assign('nav', array('', '', ''));//导航
+        $this->assign('users',$count);
+        $this -> assign('user_line',$arr);
+        //$this -> assign('liuyan',$liuyan);
         $this->display();
+    }
+    function day_add($time,$date,$mdate){
+        if($date==$mdate){
+            $mdate = '+1 day';
+        }
+        $id = session('user.id');
+        $users =M('user_log');
+        $day =date("m-d",strtotime($date));
+        $time1 =strtotime(date("Y-m-d",strtotime($date)));
+        $time2 =strtotime(date("Y-m-d",strtotime($mdate)));
+        $num =$users -> where("rank=1 and time > '$time1' and time < '$time2' ")-> count();
+        $result =array('day'=>$day,'num'=>$num);
+        return $result;
     }
 }

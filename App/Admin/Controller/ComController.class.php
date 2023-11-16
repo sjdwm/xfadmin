@@ -32,11 +32,9 @@ class ComController extends BaseController
             return true;
         }
         //检测是否登录
-        $flag =  $this->check_login();
-        $url = U("login/index");
+        $flag =  $this->check_login();        
         if (!$flag) {
-            header("Location: {$url}");
-            exit(0);
+           $this->error('您还没有登录!',U("login/index"));
         }
         $m = M();
         $prefix = C('DB_PREFIX');
@@ -45,19 +43,14 @@ class ComController extends BaseController
         $Auth = new Auth();
         $allow_controller_name = array('Upload');//放行控制器名称
         $allow_action_name = array();//放行函数名称
-        if ($userinfo[0]['group_id'] != 1 && !$Auth->check(CONTROLLER_NAME . '/' . ACTION_NAME,
+        if ($userinfo[0]['group_id'] != 1 && !$Auth->check(MODULE_NAME.'/'.CONTROLLER_NAME . '/' . ACTION_NAME,
                 $UID) && !in_array(CONTROLLER_NAME, $allow_controller_name) && !in_array(ACTION_NAME,
                 $allow_action_name)
         ) {
             $this->error('没有权限访问本页面!');
         }
-
-        $user = member(intval($UID));
-        $this->assign('user', $user);
-
-
         $current_action_name = ACTION_NAME == 'edit' ? "index" : ACTION_NAME;
-        $current = $m->query("SELECT s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle FROM {$prefix}auth_rule s left join {$prefix}auth_rule p on p.id=s.pid where s.name='" . CONTROLLER_NAME . '/' . $current_action_name . "'");
+        $current = $m->query("SELECT s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle FROM {$prefix}auth_rule s left join {$prefix}auth_rule p on p.id=s.pid where s.name='" . MODULE_NAME.'/'.CONTROLLER_NAME . '/' . $current_action_name . "'");
         $this->assign('current', $current[0]);
 
 
@@ -82,7 +75,7 @@ class ComController extends BaseController
     {
         $tree = array();
         $tmpMap = array();
-        //修复父类设置islink=0，但是子类仍然显示的bug @感谢linshaoneng提供代码
+        //修复父类设置islink=0，但是子类仍然显示的bug
         foreach( $items as $item ){
             if( $item['pid']==0 ){
                 $father_ids[] = $item['id'];
@@ -94,7 +87,7 @@ class ComController extends BaseController
         }
 
         foreach ($items as $item) {
-            //修复父类设置islink=0，但是子类仍然显示的bug by shaoneng @感谢linshaoneng提供代码
+            //修复父类设置islink=0，但是子类仍然显示的bug 
             if( $item['pid']<>0 && !in_array( $item['pid'], $father_ids )){
                 continue;
             }
@@ -115,16 +108,21 @@ class ComController extends BaseController
         $ip = get_client_ip();
         $ua = $_SERVER['HTTP_USER_AGENT'];
         $auth = cookie('auth');
-        $uid = session('uid');
-        if ($uid) {
-            $user = M('member')->where(array('uid' => $uid))->find();
+        $uid = session('user.id');
+        if (!$uid) {
+            $user = M('users')->field('id,name,ename,username,password,head_img,mid,gid,email,lang,lock,token')->where(array('id' => $uid))->find();
 
             if ($user) {
-                if ($auth ==  password($uid.$user['user'].$ip.$ua.$salt)) {
+                if ($auth ==  password($uid.$user['username'].$user['password'].$ip.$ua.$salt)) {
                     $flag = true;
-                    $this->USER = $user;
+                    $this->USER = array('uid'=>$user['id']);
+                    Session('user', $user);
+                    userLog('后台登录成功(记住密码),用户名:'.$user['username'],1);
                 }
             }
+        }else{
+            $flag = true;
+            $this->USER = array('uid'=>$uid);
         }
         return $flag;
     }

@@ -9,7 +9,43 @@
  *
  **/
 
-
+/**
+ * 管理员操作记录
+ * @param $rank 日志类型,1为登录日志
+ * @param $log_info 记录信息
+ */
+function userLog($log_info,$rank = 1,$username = '记住密码用户'){
+    $add['name'] = session('user.username')==''?$username:session('user.username');
+    $add['desc'] = $log_info;     //操作内容
+    $add['ip'] = get_client_ip(); //获取客户端IP
+    $add['time'] = time();        //记录时间
+    $add['rank'] = $rank;         //日志类别,1为登录日志,2登录失败被锁,3管理员操作
+    M("user_log")->add($add);
+}
+/**
+ * 用户访问记录
+ * @param $rank 日志类型,1为访问日志
+ * @param $log_info 访问记录信息
+ */
+function userLogin($rank = 1,$username = '访客'){
+    $protocol = (!empty($_SERVER['HTTP_FROM_HTTPS']) && $_SERVER['HTTP_FROM_HTTPS'] !== 'off') ? "https://" : "http://";
+    $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $add['name'] = session('user.username')==''?$username:session('user.username');//登录用户名
+    $add['url'] = $url;//访问的url;
+    $add['os'] = get_os();     //操作系统
+    $add['broswer'] = get_broswer()[0];     //浏览器
+    $add['broswerb'] = get_broswer()[1];     //浏览器版本号
+    $add['ip'] = get_client_ip(); //获取客户端IP
+    $add['date'] = date('Y-m-d',time());//记录时间
+    $add['time'] = time();        //记录时间
+    $add['rank'] = $rank;         //日志类别,1为访问日志
+    $model = M("user_login");
+    $state = $model->where(array('url'=>$add['url'],'ip'=>$add['ip'],'date'=>$add['date']))->find();
+    if(!$state>0){
+        $model->add($add);
+    }
+    
+}
 function UpImage($callBack = "image", $width = 100, $height = 100, $image = "")
 {
 

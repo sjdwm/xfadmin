@@ -52,13 +52,10 @@
                     </li>
                     <li class="light-blue">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" src="<if condition=" $user.head eq ''
-                            ">__PUBLIC__/xfadmin/avatars/avatar2.png
-                            <else/>
-                            __ROOT__{$user.head}</if>" alt="{$user.user}" />
+                            <img class="nav-user-photo" src="<if condition=" $Think.session.user.head_img eq ''">__PUBLIC__/xfadmin/avatars/avatar.png<else/>  __ROOT__{$Think.session.user.head_img}</if>" alt="{$Think.session.user.username}" />
                             <span class="user-info">
                                 <small>欢迎光临，</small>
-                                {$user.user}
+                                {$Think.session.user.username}
                             </span>
 
                             <i class="ace-icon fa fa-caret-down"></i>
@@ -73,7 +70,7 @@
                             </li>
 
                             <li>
-                                <a href="{:U('Personal/profile')}">
+                                <a href="{:U('Member/show',array('uid'=>$Think.session.user.id))}">
                                     <i class="ace-icon fa fa-user"></i>
                                     个人资料
                                 </a>
@@ -82,7 +79,7 @@
                             <li class="divider"></li>
 
                             <li>
-                                <a href="{:U('logout/index')}">
+                                <a href="{:U('Login/logout')}">
                                     <i class="ace-icon fa fa-power-off"></i>
                                     退出
                                 </a>

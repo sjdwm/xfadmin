@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Global Maxim">
+	<meta name="generator" content="Global Maxim">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User Center用户中心 - MAXIM EIP</title>
+<link href="./css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div id="sunfw-wrapper" class="sunfw-content ">
+<!--top1 -->
+
+<!--/top4 -->
+<!--top5 -->
+
+<div id="sunfw_section_component" class="sunfw-section ">
+<div class="container">
+<div id="row_row-6" class="row  sunfw-flex-component">
+    
+<br>
+ <!-- 循环文章列表开始 -->
+  <div id="b-content" class="container">
+
+   <!-- 左侧文章开始 -->
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="row b-article">
+                
+<div class="layui-tab" >
+          <ul class="layui-tab-title" >
+            <li  class="layui-this" onClick="lists();"><span>个人信息</span></li>
+            <li  class="" onClick="edit();"><span>修改信息</span></li>
+            <li  class="" onClick="passwd();"><span>修改密码</span></li>
+          </ul>
+           <button type="button" class="layui-btn" id="test1">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+              </button>
+            
+              <script>
+layui.use('upload', function(){
+  var upload = layui.upload;
+   
+  //执行实例
+  var uploadInst = upload.render({
+    elem: '#test1' //绑定元素
+    ,url: '/upload/' //上传接口
+    ,done: function(res){
+      //上传完毕回调
+    }
+    ,error: function(){
+      //请求异常回调
+    }
+  });
+});
+</script>
+<div id="ajax_return"></div>
+        </div>
+            </div>
+            <br>
+    
+        </div>
+        <!-- 左侧文章结束 -->
+
+    </div>
+    <!-- 循环文章列表结束 -->
+ <br>
+    </div></div></div>
+<!--/top5 -->
+<!--top6-->
+ <script src="./layui.all.js"></script>
+<script>
+    $(document).ready(function(){
+        //默认显示
+        lists();
+      });
+      function lists(){
+        $.ajax({
+          url:"/Home/user/info",
+          type:'post',
+          data:$('#formuser').serialize(),
+          success:function(data){
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+          
+          }
+        });
+      } 
+      function edit(){
+        //var rank = $('#box').val();
+        $.ajax({
+          url:"/Home/user/edit",
+          type:'post',
+          data:$('#formuser').serialize(),
+          success:function(data){
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+           
+          }
+        });
+      }
+      function passwd(){
+        //var rank = $('#box').val();
+        $.ajax({
+          url:"/Home/user/passwd",
+          type:'post',
+          data:$('#formuser').serialize(),
+          success:function(data){
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            // if(data['info']=='权限不够'){
+            //   alert(data['info']);
+            //  }
+          }
+        });
+      }     
+  </script>
+<!--/top6-->
+<!--top7 -->
+
+<!--/top7 -->
+</div>
+</body>
+</html>
