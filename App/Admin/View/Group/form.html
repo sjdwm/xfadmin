@@ -58,7 +58,7 @@
                             <if condition="$group.id neq 1">
                                 <div class="form-group">
                                     <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
-                                        权限选择 </label>
+                                        后台权限选择 </label>
                                     <div class="col-sm-9">
                                         <div class="col-sm-10">
                                             <volist name="rule" id="v">
@@ -74,24 +74,24 @@
                                                                 </label>
                                                             </h4>
                                                             <div class="widget-toolbar">
-                                                                <notempty name="v.children">
+                                                                <notempty name="v._data">
                                                                     <a href="#" data-action="collapse">
                                                                         <i class="ace-icon fa fa-chevron-up"></i>
                                                                     </a>
                                                                 </notempty>
                                                             </div>
                                                         </div>
-                                                        <notempty name="v.children">
+                                                        <notempty name="v._data">
                                                             <div class="widget-body">
                                                                 <div class="widget-main row">
-                                                                    <volist name="v.children" id="vv">
+                                                                    <volist name="v._data" id="vv">
                                                                         <label class="col-xs-2" style="width:160px;">
                                                                             <input name="rules[]"
                                                                                    class="ace ace-checkbox-2 children" <?php if(in_array($vv['id'],$group['rules'])){echo 'checked="checked"';};?>
                                                                             type="checkbox" value="{$vv['id']}"/>
                                                                             <span class="lbl"> {$vv['title']}</span>
                                                                         </label>
-                                                                        <volist name="vv.children" id="vvv">
+                                                                        <volist name="vv._data" id="vvv">
                                                                             <label class="col-xs-2"
                                                                                    style="width:160px;">
                                                                                 <input name="rules[]"
@@ -100,6 +100,62 @@
                                                                                 <span class="lbl"> {$vvv['title']}</span>
                                                                             </label>
                                                                         </volist>
+                                                                    
+                                                                    </volist>
+                                                                </div>
+                                                            </div>
+                                                        </notempty>
+                                                    </div>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                        前台权限选择 </label>
+                                    <div class="col-sm-9">
+                                        <div class="col-sm-10">
+                                            <volist name="hrule" id="v">
+                                                <div class="row">
+                                                    <div class="widget-box">
+                                                        <div class="widget-header">
+                                                            <h4 class="widget-title">
+                                                                <label>
+                                                                    <input name="rules[]"
+                                                                           class="ace ace-checkbox-2 father" <?php if(in_array($v['id'],$group['rules'])){echo 'checked="checked"';};?>
+                                                                    type="checkbox" value="{$v['id']}"/>
+                                                                    <span class="lbl"> {$v['title']}</span>
+                                                                </label>
+                                                            </h4>
+                                                            <div class="widget-toolbar">
+                                                                <notempty name="v._data">
+                                                                    <a href="#" data-action="collapse">
+                                                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                                                    </a>
+                                                                </notempty>
+                                                            </div>
+                                                        </div>
+                                                        <notempty name="v._data">
+                                                            <div class="widget-body">
+                                                                <div class="widget-main row">
+                                                                    <volist name="v._data" id="vv">
+                                                                        <label class="col-xs-2" style="width:160px;">
+                                                                            <input name="rules[]"
+                                                                                   class="ace ace-checkbox-2 children" <?php if(in_array($vv['id'],$group['rules'])){echo 'checked="checked"';};?>
+                                                                            type="checkbox" value="{$vv['id']}"/>
+                                                                            <span class="lbl"> {$vv['title']}</span>
+                                                                        </label>
+                                                                        <volist name="vv._data" id="vvv">
+                                                                            <label class="col-xs-2"
+                                                                                   style="width:160px;">
+                                                                                <input name="rules[]"
+                                                                                       class="ace ace-checkbox-2 children" <?php if(in_array($vvv['id'],$group['rules'])){echo 'checked="checked"';};?>
+                                                                                type="checkbox" value="{$vvv['id']}"/>
+                                                                                <span class="lbl"> {$vvv['title']}</span>
+                                                                            </label>
+                                                                        </volist>
+                                                                    
                                                                     </volist>
                                                                 </div>
                                                             </div>
@@ -136,7 +192,7 @@
 </div><!-- /.main-container -->
 
 <include file="Public/footerjs"/>
-<script src="__PUBLIC__/qwadmin/js/bootbox.js"></script>
+
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     $(".children").click(function () {

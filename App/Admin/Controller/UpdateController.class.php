@@ -36,6 +36,19 @@ class UpdateController extends ComController
         $this->assign('nav', array('setting', 'devlog'));//导航
         $this->display();
     }
+    //添加开发日志
+    public function addlog(){
+        $data = I('post.');
+        $data = TrimArray($data);
+        if(empty($data['v']) || empty($data['log'])){
+            $this->error('数据不能为空！');
+        }
+        $model = M('devlog')->data(array('v'=>$data['v'],'t'=>time(),'log'=>htmlspecialchars_decode($data['log'])))->add();
+        if($model>0){
+            $this->success('添加成功！');
+        }
+
+    }
 
     public function update()
     {

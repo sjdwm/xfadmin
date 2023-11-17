@@ -1,0 +1,110 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<block name="style">
+    <style>
+    	.col-xs-6 .intw{
+    		width: 250px;
+   			padding: 5px;
+   			letter-spacing: 0px;
+    	}
+    	
+    </style>
+</block>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        
+<nav class="mysql"> 
+    <div class="collapse navbar-collapse navbar-form form-inline">
+          <select name="s_id" id="box" onchange="lists()" style="margin-bottom: 8px;vertical-align: middle;">
+            <option value="0" >选择分类</option>
+            <option value="1" >访客日志</option>
+          
+
+          
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="bbtn bbtn-info" style="width: 60px;min-height: 28px;margin-top: -5px;" onclick="lists()">筛选</button>
+    </div>
+  </nav>
+		<table class="table table-hover" style="text-align: center;word-wrap: break-word; word-break: break-all;" >
+			<thead>
+			
+				<tr align='left' bgcolor="#ccc">
+					<th style="text-align: center;width: 80px;">编 号</th>
+                    <th style="text-align: center;width: 100px;">Name</th>
+                    <th style="text-align: center;width: 100px;">系统</th>
+                    <th style="text-align: center;width: 200px;">浏览器</th>
+                    <th style="text-align: center;width:400px;">URL</th>
+                    <th style="text-align: center;">IP</th>
+                    <th style="text-align: center;">位置</th>
+                    <th style="text-align: center;">时间</th>
+              		<!-- <th>操作时间</th> -->
+				</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>
+                        <div class="space-4"></div>
+                        
+             
+                           <div id="ajax_return"></div>
+                     
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+ <script>
+    $(document).ready(function(){
+        //默认订单里显示第一页
+        lists(1);
+      });
+    //ajax订单分页-筛选
+      function lists(page){
+        var rank = $('#box').val();
+        $.ajax({
+          url:"__URL__/user_log_list/p/"+page, //+tab,
+          type:'post',
+          data:'rank='+rank, 
+          success:function(data){
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if(data['info']=='您没有权限访问'){
+              alert(data['info']);
+             }
+          }
+        });
+      } 
+     
+  </script>
+
+</body>
+</html>

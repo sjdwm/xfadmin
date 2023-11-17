@@ -1,5 +1,5 @@
 <include file="Public/head"/>
-<link rel="stylesheet" href="__PUBLIC__/qwadmin/css/timeline.css" />
+
 <body class="no-skin">
 <include file="Public/header"/>
 <div class="main-container" id="main-container">
@@ -43,22 +43,32 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-                        <ul class="timeline">
-                            <volist name="log" id="val">
-                                <li>
-                                    <div class="ver">
-                                        <div class="version">{$val.v}</div>
-                                        <div class="time">{$val.t|date="Y-m-d",###}</div>
+                        <div class="layui-card">
+                        <div class="layui-card-header">更新日志 &nbsp;<button data-toggle="modal" data-target="#myModalp" type="button" class="bbtn bbtn-info" style="width: 73px;min-height: 28px;margin-top: -5px;vertical-align: inherit;" >提交日志</button></div>
+                        <div class="layui-card-body">
+                            <ul class="layui-timeline">
+                                <volist name="log" id="vol">
+                                <li class="layui-timeline-item">
+                                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                    <div class="layui-timeline-content layui-text">
+                                        <h3 class="layui-timeline-title">{$vol.v} &nbsp;{:date("Y-m-d",$vol['t'])}</h3>
+                                        <ul>
+                                           {$vol.log}
+                                        </ul>
                                     </div>
-                                    <div class="number">{$val.id}</div>
-                                    <div class="log">
-                                        <pre>{$val.log}</pre>
-                                    </div>
-                                    <div class="c"></div>
                                 </li>
-                            </volist>
-                        </ul>
-                        {$page}
+                                </volist>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                   <!--  <script src="/static/layui/layui.js"></script> -->
+                    <!-- <script>
+                        layui.config({base: '/static/'}).extend({common: 'js/common'}).use(['common'], function() {
+                            var common = layui.common;
+
+                        });
+                    </script> -->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -68,15 +78,53 @@
     <include file="Public/footer"/>
 
 </div><!-- /.main-container -->
-
+<!-- 密码修改Modal -->
+  <div class="modal fade" id="myModalp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">提交日志</h4>
+        </div>
+        <div class="modal-body">
+          <form action="{:U('Update/addlog')}" method='post' class="form-horizontal" id='form-pass'>
+            <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">标题</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control vip" id="input11" name="v" value="" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-3 control-label">内容</label>
+          <div class="col-sm-7">
+            <textarea name="log" id="log" class="col-xs-12 col-sm-12" rows="5"><li>实例1</li>
+<li>实例2</li>
+<li>实例3</li>
+            </textarea>
+          </div>
+        </div>
+         
+      
+<!--           <input type="hidden" name="uid" id="uid" value="">
+          <input type="hidden" name="username" id="username" value=""> -->
+        
+          </form>
+        </div>
+        <div class="modal-footer">       
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-primary" form="form-pass" >提交</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <include file="Public/footerjs"/>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-    $(function () {
-        $(".number").click(function () {
-            $(this).parent().find(".version,.time,.log").toggle(500);
-        })
-    })
+    // $(function () {
+    //     $(".number").click(function () {
+    //         $(this).parent().find(".version,.time,.log").toggle(500);
+    //     })
+    // })
 </script>
 </body>
 </html>

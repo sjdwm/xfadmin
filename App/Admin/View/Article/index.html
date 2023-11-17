@@ -54,8 +54,14 @@
                                 <thead>
                                 <tr>
                                     <th class="center"><input class="check-all" type="checkbox" value=""></th>
+                                    <th>ID</th>
                                     <th>所属分类</th>
-                                    <th class="col-xs-7">文章标题</th>
+                                    <th>文章标题</th>
+                                    <th>作者</th>
+                                    <th class="center">是否显示</th>
+                                    <th class="center">是否置顶</th>
+                                    <th class="center">是否首页</th>
+                                    <th class="center">点击数</th>
                                     <th>发布时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -65,10 +71,16 @@
                                     <tr>
                                         <td class="center"><input class="aids" type="checkbox" name="aids[]"
                                                                   value="{$val['aid']}"></td>
-                                        <td><a href="{:U('index',array('sid'=>$val['sid']))}" title="{$val['name']}">{$val['name']}</a>
+                                        <td>{$val['aid']}</td>
+                                        <td><a href="{:U('Home/Index/article',array('aid'=>$val['aid']))}" title="{$val['name']}">{$val['s_name']} {$val['name']}</a>
                                         </td>
-                                        <td>{$val['title']}</td>
-                                        <td>{$val['t']|date="Y-m-d H:i:s",###}</td>
+                                        <td>{$val['title']?:$val['title_en']}</td>
+                                        <td>{:member($val['uid'],'username')['username']}</td>
+                                        <td class="center"><div id="bt{$val.aid}" onClick="redoit({$val.aid},'bt{$val.aid}','is_show')" class="{$val['is_show'] == '1'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$val['is_show'] == '1'?'style="color:#089641;"':'style="color:red;"'} > </div></td>
+                                        <td class="center"><div id="btt{$val.aid}" onClick="redoit({$val.aid},'btt{$val.aid}','is_top')" class="{$val['is_top'] == '1'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$val['is_top'] == '1'?'style="color:#089641;"':'style="color:red;"'} > </div></td>
+                                        <td class="center"><div id="bttt{$val.aid}" onClick="redoit({$val.aid},'bttt{$val.aid}','is_s')" class="{$val['is_s'] == '1'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$val['is_s'] == '1'?'style="color:#089641;"':'style="color:red;"'} > </div></td>
+                                        <td class="center">{$val['click']}</td>
+                                        <td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$val['time']))}</td>
                                         <td><a href="{:U('edit',array('aid'=>$val['aid']))}"><i
                                                 class="ace-icon fa fa-pencil bigger-100"></i>修改</a>&nbsp&nbsp;<a
                                                 href="javascript:;" val="{:U('del',array('aids'=>$val['aid']))}" class="del"><i
@@ -82,6 +94,7 @@
                             <input id="submit" class="btn btn-info" type="button" value="删除">
                         </div>
                         {$page}
+                       
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -148,6 +161,36 @@
             });
         });
     })
+    //文章是否显示
+        function redoit(b,c,n){
+            //var bt=window.document.getElementById(c);
+            restt = $('#'+c).hasClass('glyphicon glyphicon-remove ds');
+            if(restt !== true){
+              //bt.innerHTML="禁用";
+              $('#'+c).attr("class","glyphicon glyphicon-remove ds");
+              $('#'+c).attr("style","color:red");
+              restt = 0;
+              stop('0',b,n);                    
+            }else{
+              //bt.innerHTML="正常";
+              $('#'+c).attr('class','glyphicon glyphicon-ok ds');
+              $('#'+c).attr("style","color:#089641;");
+               restt = 1;  
+              stop('1',b,n);                  
+            }
+          }
+          //设置是否显示
+          function stop(a,b,n){
+            
+             $.ajax({
+              url:'{:U('astop')}',
+              type:'get',
+              data:"v="+a+'&id='+b+'&name='+n,
+              success:function(value){
+                //alert(value);
+              }
+             });
+          } 
 </script>
 </body>
 </html>

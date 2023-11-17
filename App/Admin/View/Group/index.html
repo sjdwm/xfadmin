@@ -51,7 +51,9 @@
                                                 <a href="{:U('status',array('id'=>$val['id']))}" title="点击启用">禁用</a>
                                             </if>
                                         </td>
-                                        <td class="center"><a class="bbtn bbtn-primary" href="{:U('edit',array('id'=>$val['id']))}">修改</a></td>
+                                        <td class="center"><a class="bbtn bbtn-info" href="{:U('edit',array('id'=>$val['id']))}">修改权限</a> 
+                                        <a class="bbtn bbtn-info" href="{:U('usergroup',array('id'=>$val['id']))}">添加人员</a></td>
+                                        
                                     </tr>
                                 </volist>
                                 </tbody>

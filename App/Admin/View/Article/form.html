@@ -31,7 +31,7 @@
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-0">
                                     文章分类 </label>
                                 <div class="col-sm-9">
-                                    <select id="sid" name="sid" class="col-xs-10 col-sm-5">
+                                    <select id="cid" name="cid" class="col-xs-10 col-sm-5">
                                         <option value="0">--分类--</option>
                                         {$category}
                                     </select>
@@ -45,26 +45,38 @@
                             <div class="space-4"></div>
                             <div class="form-group">
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
-                                    文章标题 </label>
+                                    中文标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="title" id="title" placeholder="文章标题"
+                                    <input type="text" name="title" id="title" placeholder="中文标题"
                                            class="col-xs-10 col-sm-5" value="{$article['title']}">
                                     <span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle">文章标题不能为空。</span>
+												<span class="middle">中文标题</span>
 											</span>
                                 </div>
                             </div>
+                               <div class="space-4"></div>
                             <div class="form-group">
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
-                                    SEO标题 </label>
+                                    英文标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="seotitle" id="seotitle" placeholder="SEO标题"
-                                           class="col-xs-10 col-sm-5" value="{$article['seotitle']}">
+                                    <input type="text" name="title_en" id="title_en" placeholder="英文标题"
+                                           class="col-xs-10 col-sm-5" value="{$article['title_en']}">
                                     <span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle">如果设置SEO标题，将会在IE标题栏显示SEO标题。</span>
-											</span>
+                                                <span class="middle">英文标题</span>
+                                            </span>
                                 </div>
                             </div>
+                           <!--  <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    作者 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="author" id="author" placeholder=""
+                                           class="col-xs-10 col-sm-5" value="{$article['author']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章作者</span>
+											</span>
+                                </div>
+                            </div> -->
 
                             <div class="space-4"></div>
 
@@ -72,7 +84,7 @@
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
                                     关键词 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="keywords" id="keywords" placeholder="关键词"
+                                    <input type="text" name="keywords" id="keywords" placeholder="多个关键词用顿号分隔"
                                            class="col-xs-10 col-sm-5" value="{$article['keywords']}">
                                     <span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle">文章关键词。</span>
@@ -86,7 +98,7 @@
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
                                     文章摘要 </label>
                                 <div class="col-sm-9">
-                                        <textarea name="description" id="description" placeholder="文章摘要"
+                                        <textarea name="description" id="description" placeholder="可以不填，如不填；则截取文章内容前300字为描述"
                                                   class="col-xs-10 col-sm-5"
                                                   rows="5">{$article['description']}</textarea>
                                     <span class="help-inline col-xs-12 col-sm-7">
@@ -111,11 +123,35 @@
                             <div class="space-4"></div>
 
                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
+                                    属性 </label>
+                                <div class="col-sm-9" style="padding-top: 6px;">
+                                <label for="in3">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in3" type="checkbox" name="is_show" value="1" <if condition="$article['is_show'] eq 1">checked="checked"</if> ><span class="lbl"> 是否显示</span></label>
+                                        &emsp;
+                                <label for="in2">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in2" type="checkbox" name="is_top" value="1" <if condition="$article['is_top'] eq 1">checked="checked"</if>><span class="lbl"> 是否置顶</span></label>
+                                        &emsp;
+                                <label for="in1">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in1" type="checkbox" name="is_s" value="1" <if condition="$article['is_s'] eq 1">checked="checked"</if>><span class="lbl"> 是否首页</span></label>
+                                        &emsp;
+
+                                                                            
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
                                     文章内容 </label>
                                 <div class="col-sm-9">
-                                        <textarea name="content" id="content"
-                                                  style="width:100%;height:400px;visibility:hidden;">{$article['content']}</textarea>
+                                <!-- 引入ueditor编辑器开始 -->
+                                 <ueditor name="content" content="{$article['content']}" />
+                                <!-- 进入ueditor编辑器结束 -->
+                                    
                                 </div>
                             </div>
                             <div class="space-4"></div>
@@ -151,15 +187,7 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     $(function () {
-        $("#tabs").tabs();
-        var editor = KindEditor.create('textarea[name="content"]', {
-            uploadJson: '__PUBLIC__/kindeditor/php/upload_json.php',
-            fileManagerJson: '__PUBLIC__/kindeditor/php/file_manager_json.php',
-            allowFileManager: true,
-            afterBlur: function () {
-                this.sync();
-            }
-        });
+
         $(".submit").click(function () {
             var sid = $("#sid").val();
             var title = $("#title").val();

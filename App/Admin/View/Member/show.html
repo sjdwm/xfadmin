@@ -1,0 +1,424 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row" onselectstart="return false;">
+                    <div class="col-xs-12" style="pointer-events: none;" >
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form class="form-horizontal" action="{:U('update')}" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 用户名 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" placeholder="登录用户名，建议使用公司邮箱名" autocomplete="off"
+                                    <if condition="$member['id'] gt 1">readonly
+                                        <else/>
+                                        name="username"
+                                    </if>
+                                    class="rcol-xs-10 col-sm-5" value="{$member.username}">
+                                    <input type="hidden" name="uid" value="{$member['id']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+											
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 姓名 </label>
+                                <div class="col-sm-9">
+                                    <input type="text"  name="name" placeholder=""                               
+                                    class="rcol-xs-10 col-sm-5" value="{$member.name}">
+                                    
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                            
+                                     </span>
+                                </div>
+                            </div>
+                               <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 姓名EN </label>
+                                <div class="col-sm-9">
+                                    <input type="text"   name="ename"                                 
+                                    class="rcol-xs-10 col-sm-5" value="{$member.ename}">
+                                    
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                            
+                                     </span>
+                                </div>
+                            </div>
+<!-- 
+                            <div class="space-4"></div>
+                              <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2"> 用户密码 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="password" id="password" placeholder="用户密码"
+                                           class="col-xs-10 col-sm-5" value="{$member['password']==''?'888888':''}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">留空不修改,默认888888</span>
+                                            </span>
+                                </div>
+                            </div> -->
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-10"> 用户组 </label>
+                                <div class="col-sm-9" style="padding-top: 6px;">
+                                    <if condition="$member['id'] eq 1">
+                                        <!-- <volist name="usergroup" id="val">
+                                            <if condition="$val['id'] eq $member['group_id']">
+                                                <input type="text" class="col-xs-10 col-sm-5" value="{$val['title']}"
+                                                       readonly>
+                                                <input type="hidden" name="group_id" id="group_id"
+                                                       class="col-xs-10 col-sm-5" value="{$member['group_id']}">
+                                            </if>
+                                        </volist> -->
+                                         <foreach name="usergroup" item="val"><label for="in{$val.id}">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" <in name="val['id']" value="$usergroup_access"> checked="checked" </in> ><span class="lbl"> {$val['title']}</span></label>
+                                        &emsp;                    
+                                        </foreach>
+                                        <else/>
+                                        <!-- <select id="group_id" name="group_id" class="rcol-xs-10 col-sm-5">
+                                            <volist name="usergroup" id="val">
+                                                <option value="{$val['id']}"
+                                                <if condition="$val['id'] eq $member['group_id']">selected="selected"
+                                                </if>
+                                                >{$val['title']}</option>
+                                            </volist>
+                                        </select> -->
+                                        <foreach name="usergroup" item="val"><label for="in{$val.id}">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" <in name="val['id']" value="$usergroup_access"> checked="checked" </in> ><span class="lbl"> {$val['title']}</span></label>
+                                        &emsp;                    
+                                        </foreach>
+                                    </if>
+                                   <!--  <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">请慎重选择用户组</span>
+											</span> -->
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                                 <div class="form-group">
+                                    <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                        公司选择 </label>
+                                           <div class="col-sm-9">
+                                     <span  class=" col-xs-2 col-sm-2">
+                                    <select id="mid" name="mid" class="form-control" onchange="mids(this.value)">
+                                    <volist name="rule" id="v">
+                                        <option value="{$v.id}"
+                                        <if condition="$member['mid'] eq $v['id']">selected="selected"</if>
+                                        >{$v.cname}</option>
+                                    </volist>  
+                                    </select>
+                                    </span>
+                                    <span id="ids" class="col-xs-3 col-sm-3"></span>
+                                   <!--  <select id="gid" name="gid" class="multiselect">
+                                        <option value="0">空</option>
+                                       
+                                    </select> -->
+                                </div>
+                               <!--      <div class="col-sm-9">
+                                        <div class="col-sm-10">
+                                            <volist name="rule" id="v">
+                                                <div class="row">
+                                                    <div class="widget-box">
+                                                        <div class="widget-header">
+                                                            <h4 class="widget-title">
+                                                                <label>
+                                                                    <input name="company[]"
+                                                                           class="ace ace-checkbox-2 father" <?php if(in_array($v['id'],$mid)){echo 'checked="checked"';};?>
+                                                                    type="checkbox" value="{$v['id']}"/>
+                                                                    <span class="lbl"> {$v['cname']}</span>
+                                                                </label>
+                                                            </h4>
+                                                            <div class="widget-toolbar">
+                                                                <notempty name="v._data">
+                                                                    <a href="#" data-action="collapse">
+                                                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                                                    </a>
+                                                                </notempty>
+                                                            </div>
+                                                        </div>
+                                                        <notempty name="v._data">
+                                                            <div class="widget-body">
+                                                                <div class="widget-main row">
+                                                                    <volist name="v._data" id="vv">
+                                                                        <label class="col-xs-2" style="width:160px;">
+                                                                            <input name="rules[]"
+                                                                                   class="ace ace-checkbox-2 children" <?php if(in_array($vv['id'],$gid)){echo 'checked="checked"';};?>
+                                                                            type="checkbox" value="{$vv['id']}"/>
+                                                                            <span class="lbl"> {$vv['cname']}</span>
+                                                                        </label>
+                                                                        <volist name="vv._data" id="vvv">
+                                                                            <label class="col-xs-2"
+                                                                                   style="width:160px;">
+                                                                                <input name="rules[]"
+                                                                                       class="ace ace-checkbox-2 children" <?php if(in_array($vvv['id'],$gid)){echo 'checked="checked"';};?>
+                                                                                type="checkbox" value="{$vvv['id']}"/>
+                                                                                <span class="lbl"> {$vvv['cname']}</span>
+                                                                            </label>
+                                                                        </volist>
+                                                                    
+                                                                    </volist>
+                                                                </div>
+                                                            </div>
+                                                        </notempty>
+                                                    </div>
+                                                </div>
+                                            </volist>
+                                        </div>
+                                    </div> -->
+                                </div>
+                             <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 职位 </label>
+                                <div class="col-sm-9">
+                                    <input type="text"   name="post"                                 
+                                    class="rcol-xs-10 col-sm-5" value="{$member.post}">
+                                    
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                            
+                                     </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 工号 </label>
+                                <div class="col-sm-9">
+                                    <input type="text"   name="job"                                 
+                                    class="rcol-xs-10 col-sm-5" value="{$member.job}">
+                                    
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                            
+                                     </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> 系统语言 </label>
+                                <div class="col-sm-2">
+                                   <label><input name="lang" type="radio" value="0" checked/>中文 </label>
+                                    <label><input name="lang" type="radio" value="1" />英文 </label>
+                                    
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                            
+                                     </span>
+                                </div>
+                            </div>
+                            <!-- <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 头像 </label>
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10 col-sm-5">{:UpImage("head",100,100,$member['img'])}</div>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">仅支持jpg、gif、png、bmp、jpeg，且小于1MB。</span>
+											</span>
+                                </div>
+
+                            </div> -->
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-4"> 性别 </label>
+                                <div class="col-sm-9">
+                                    <select id="sex" name="sex" class="multiselect">
+                                        <option value="0"
+                                        <if condition="$member['sex'] eq 0">selected="selected"</if>
+                                        >保密</option>
+                                        <option value="1"
+                                        <if condition="$member['sex'] eq 1">selected="selected"</if>
+                                        >男</option>
+                                        <option value="2"
+                                        <if condition="$member['sex'] eq 2">selected="selected"</if>
+                                        >女</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="id-date-picker-1">生日</label>
+                                <div class="col-xs-9 col-sm-9">
+                                    <div class="input-group col-xs-5">
+
+                                        <input class="form-control" id="birthday" name="birthday" value="<if condition="
+                                               $member['birthday'] neq '' ">{$member['birthday']}</if>"
+                                        type="text" data-date-format="dd-mm-yyyy" />
+                                        <span class="input-group-addon">
+													<i class="ace-icon fa fa-calendar bigger-110"></i>
+												</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 电话号码 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="telphone" id="telphone" placeholder="例：+86 021-64064227-分机号"
+                                           class="col-xs-10 col-sm-5" value="{$member['telphone']==''?'+86 021-64064227-分机号':$member['telphone']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">*请正确填写</span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                             <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 手机号码 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="phone" id="phone" placeholder=""
+                                           class="col-xs-10 col-sm-5" value="{$member['phone']==''?'':$member['phone']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">请正确填写</span>
+                                            </span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                          <!--   <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-7"> Q&nbsp;&nbsp;Q </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="qq" id="qq" placeholder="QQ" class="col-xs-10 col-sm-5"
+                                           value="{$member['qq']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div> -->
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-8">
+                                    E-mail </label>
+                                <div class="col-sm-9">
+                                    <input type="email" name="email" id="email" placeholder="E-mail"
+                                           class="col-xs-10 col-sm-5" value="{$member['email']}" required>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle"></span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <!-- <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info" type="submit">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div> -->
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script src="__PUBLIC__/xfadmin/js/date-time/bootstrap-datepicker.js"></script>
+<!-- <script src="__PUBLIC__/xfadmin/js/function.js"></script> -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#birthday').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStart: 1,
+            autoclose: true,
+            todayBtn: 'linked',
+            language: 'cn'
+        });
+    });
+    mids();
+    function mids(a){
+        //console.log(a);
+        var area = $("#gid"); 
+        var gid = "{$member['gid']}";
+        var gidname = "{$gidname}";
+        var mid = $("#mid option:selected");
+        if(!a){
+            a = mid.val();
+        }
+        //area.append("<option  value='1'> sf</option>"); 
+        $.ajax({
+          url:"{:U('Member/gidinfo')}", //+tab,
+          type:'post',
+          data:'mid='+a+'&gid='+gid, 
+          success:function(data){
+            // if(data.length>0){                
+            //     $("#gid").empty(); 
+            //     if(gid>0){
+            //         area.append("<option  value="+gid+">"+gidname+"</option>");
+            //     }else{
+            //         area.append("<option  value='0'>空</option>"); 
+            //     }                
+            //     $.each(data,function(k,v) {  
+            //     area.append("<option  value=" + v.id + ">"  
+            //             + v.cname + "</option>"); 
+            //         //console.log(v); 
+            //     });
+
+            // }else{
+            //     $("#gid").empty();
+            //     area.append("<option  value='0'>空</option>"); 
+            // }
+           $("#ids").html(data);
+           
+          }
+        });
+    }
+ //ajax
+      function lists(a){
+        var rank = $('#box').val();
+        $.ajax({
+          url:"__URL__/loglist/p/"+page, //+tab,
+          type:'post',
+          data:'rank='+rank, 
+          success:function(data){
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+           
+          }
+        });
+      } 
+</script>
+</body>
+</html>

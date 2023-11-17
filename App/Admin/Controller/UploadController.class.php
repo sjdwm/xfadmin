@@ -71,9 +71,9 @@ class UploadController extends ComController
         $upload = new Upload(array(
             'mimes' => $mimes,
             'exts' => $exts,
-            'rootPath' => './Public/',
-            'savePath' => 'attached/'.date('Y')."/".date('m')."/",
-            'subName'  =>  array('date', 'd'),
+            'rootPath' => './upload/',
+            'savePath' => 'attached/'.date('Y-m')."/",
+            'subName'  =>  '',
         ));
         $info = $upload->upload($files);
         if(!$info) {// 上传错误提示错误信息
@@ -81,7 +81,7 @@ class UploadController extends ComController
             echo "<script>alert('{$error}')</script>";
         }else{// 上传成功
             foreach ($info as $item) {
-                $filePath[] = __ROOT__."/Public/".$item['savepath'].$item['savename'];
+                $filePath[] = __ROOT__."/upload/".$item['savepath'].$item['savename'];
             }
             $ImgStr = implode("|", $filePath);
             return $ImgStr;

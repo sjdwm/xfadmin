@@ -1,0 +1,252 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form class="form-horizontal" id="form" method="post" action="{:U('useredit')}">
+
+                            <!-- PAGE CONTENT BEGINS -->
+
+                            <input type="hidden" name="aid" value="{$article.aid}" id="aid"/>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-0">
+                                    文章分类 </label>
+                                <div class="col-sm-9">
+                                    <select id="cid" name="cid" class="col-xs-10 col-sm-5">
+                                         <volist name="category" id="v">
+                                        <option value="{$v.id}"
+                                        <if condition="$article['cid'] eq $v['id']">selected="selected"</if>
+                                        >{$v.name} {$v.ename}</option>
+                                    </volist>  
+                                    </select>
+
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">选择所属分类。</span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    中文标题 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title" id="title" placeholder="中文标题"
+                                           class="col-xs-10 col-sm-5" value="{$article['title']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章中文标题</span>
+											</span>
+                                </div>
+                            </div>
+                             <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    英文标题 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title_en" id="title_en" placeholder="英文标题"
+                                           class="col-xs-10 col-sm-5" value="{$article['title_en']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">文章英文标题</span>
+                                            </span>
+                                </div>
+                            </div>
+                           <!--  <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    作者 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="author" id="author" placeholder=""
+                                           class="col-xs-10 col-sm-5" value="{$article['author']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章作者</span>
+											</span>
+                                </div>
+                            </div> -->
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
+                                    关键词 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="keywords" id="keywords" placeholder="多个关键词用顿号分隔"
+                                           class="col-xs-10 col-sm-5" value="{$article['keywords']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章关键词。</span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
+                                    文章摘要 </label>
+                                <div class="col-sm-9">
+                                        <textarea name="description" id="description" placeholder="可以不填，如不填；则截取文章内容前300字为描述"
+                                                  class="col-xs-10 col-sm-5"
+                                                  rows="5">{$article['description']}</textarea>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章摘要、描述。</span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-4">
+                                    缩略图 </label>
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10 col-sm-5">
+                                        {:UpImage("thumbnail",100,100,$article['thumbnail'])}
+                                    </div>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">仅支持jpg、gif、png、bmp、jpeg，且小于2MB。</span>
+											</span>
+                                </div>
+
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
+                                    属性 </label>
+                                <div class="col-sm-9" style="padding-top: 6px;">
+                                <label for="in3">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in3" type="checkbox" name="is_show" value="1" <if condition="$article['is_show'] eq 1">checked="checked"</if><if condition="$article['id'] eq ''">checked="checked"</if> ><span class="lbl"> 是否显示</span></label>
+                                        &emsp;
+                                <label for="in2">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in2" type="checkbox" name="is_top" value="1" <if condition="$article['is_top'] eq 1">checked="checked"</if>><span class="lbl"> 是否置顶</span></label>
+                                        &emsp;
+                                        <label for="in1">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in1" type="checkbox" name="is_s" value="1" <if condition="$article['is_s'] eq 1">checked="checked"</if>><span class="lbl"> 是否首页</span></label>
+                                        &emsp;
+
+                                                                            
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
+                                    文章内容 </label>
+                                <div class="col-sm-9">
+                                <!-- 引入ueditor编辑器开始 -->
+                                 <ueditor name="content" content="{$article['content']}" />
+                                <!-- 进入ueditor编辑器结束 -->
+                                    
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info submit" type="button">
+                                    <i class="icon-ok bigger-110"></i>
+                                    提交
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    重置
+                                </button>
+                            </div>
+
+                            <!-- PAGE CONTENT ENDS -->
+
+
+                        </form>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        // $("#tabs").tabs();
+        // var editor = KindEditor.create('textarea[name="content"]', {
+        //     uploadJson: '__PUBLIC__/kindeditor/php/upload_json.php',
+        //     fileManagerJson: '__PUBLIC__/kindeditor/php/file_manager_json.php',
+        //     allowFileManager: true,
+        //     afterBlur: function () {
+        //         this.sync();
+        //     }
+        // });
+        $(".submit").click(function () {
+            var sid = $("#sid").val();
+            var title = $("#title").val();
+            var title_en = $("#title_en").val();
+            var content = $("#content").val();
+            if (sid == 0) {
+                bootbox.dialog({
+                    title: '友情提示：',
+                    message: "文章分类必须选择。",
+                    buttons: {
+                        "success": {
+                            "label": "确定",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+            }
+            if (title == '' && title_en == '') {
+                bootbox.dialog({
+                    title: '友情提示：',
+                    message: "文章中英文标题必须填写其一。",
+                    buttons: {
+                        "success": {
+                            "label": "确定",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+            }
+            if (content == '') {
+                bootbox.dialog({
+                    title: '友情提示：',
+                    message: "文章内容需要填写。",
+                    buttons: {
+                        "success": {
+                            "label": "确定",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+                return;
+            }
+            $("#form").submit();
+        });
+    });
+</script>
+</body>
+</html>

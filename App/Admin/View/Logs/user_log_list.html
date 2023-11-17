@@ -1,0 +1,28 @@
+<table class="table table-hover">
+                 <tbody>
+<volist name='list' id='vol'>
+                <tr>
+                    <td style="text-align: center;width: 80px;">{$vol.id}</td>
+                    <td style="text-align: center;width:200px;">{$vol.name}</td>
+                    <td style="text-align: center;width:350px;">{$vol.desc}</td>
+              		<td style="text-align: center;width:250px;">{$vol.ip}</td>
+              		<td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$vol['time']))}</td>
+              	</tr>
+</volist>
+              <tr>
+                <td colspan=7>
+                   <div class=>
+                      <ul class="pagination pagination-xs pagination-custom">
+                        {$show}
+                      </ul>
+                    </div>
+                </td>
+              </tr>
+</tbody>
+</table>
+<script>
+ $(".pagination a").click(function(){
+ cur_page = $(this).data('p');
+ lists(cur_page);
+ });
+</script>

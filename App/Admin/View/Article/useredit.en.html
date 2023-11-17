@@ -1,0 +1,252 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form class="form-horizontal" id="form" method="post" action="{:U('useredit')}">
+
+                            <!-- PAGE CONTENT BEGINS -->
+
+                            <input type="hidden" name="aid" value="{$article.aid}" id="aid"/>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-0">
+                                    Category </label>
+                                <div class="col-sm-9">
+                                    <select id="cid" name="cid" class="col-xs-10 col-sm-5">
+                                         <volist name="category" id="v">
+                                        <option value="{$v.id}"
+                                        <if condition="$article['cid'] eq $v['id']">selected="selected"</if>
+                                        >{$v.name} {$v.ename}</option>
+                                    </volist>  
+                                    </select>
+
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">Select the category。</span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    Chinese Title </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title" id="title" placeholder="Chinese Title"
+                                           class="col-xs-10 col-sm-5" value="{$article['title']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">If there is no Chinese title, do not fill in</span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    English Title </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="title_en" id="title_en" placeholder="English Title"
+                                           class="col-xs-10 col-sm-5" value="{$article['title_en']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+                                                <span class="middle">If there is no English title, do not fill in</span>
+                                            </span>
+                                </div>
+                            </div>
+                           <!--  <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+                                    作者 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="author" id="author" placeholder=""
+                                           class="col-xs-10 col-sm-5" value="{$article['author']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">文章作者</span>
+											</span>
+                                </div>
+                            </div> -->
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
+                                    Key words </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="keywords" id="keywords" placeholder="多个关键词用顿号分隔"
+                                           class="col-xs-10 col-sm-5" value="{$article['keywords']}">
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">Article Keywords。</span>
+											</span>
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
+                                    Article Summary </label>
+                                <div class="col-sm-9">
+                                        <textarea name="description" id="description" placeholder="Can not fill in, if not fill; then intercept the contents of the first 300 words for the description"
+                                                  class="col-xs-10 col-sm-5"
+                                                  rows="5">{$article['description']}</textarea>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">Article summary, description。</span>
+											</span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-4">
+                                    Upload attachment </label>
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10 col-sm-5">
+                                        {:UpImage("thumbnail",100,100,$article['thumbnail'])}
+                                    </div>
+                                    <span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle">Only support jpg、gif、png、bmp、jpeg，Less than 2MB。</span>
+											</span>
+                                </div>
+
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-3">
+                                    Attributes </label>
+                                <div class="col-sm-9" style="padding-top: 6px;">
+                                <label for="in3">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in3" type="checkbox" name="is_show" value="1" <if condition="$article['is_show'] eq 1">checked="checked"</if><if condition="$article['id'] eq ''">checked="checked"</if> ><span class="lbl"> Is displayed</span></label>
+                                        &emsp;
+                                <label for="in2">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in2" type="checkbox" name="is_top" value="1" <if condition="$article['is_top'] eq 1">checked="checked"</if>><span class="lbl"> Whether the top</span></label>
+                                        &emsp;
+                                <label for="in1">
+                                        
+                                        <input class="ace ace-checkbox-2 children" id="in1" type="checkbox" name="is_s" value="1" <if condition="$article['is_s'] eq 1">checked="checked"</if>><span class="lbl"> Home page display</span></label>
+                                        &emsp;
+
+                                                                            
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label no-padding-right" for="form-field-2">
+                                    Content of the article </label>
+                                <div class="col-sm-9">
+                                <!-- 引入ueditor编辑器开始 -->
+                                 <ueditor name="content" content="{$article['content']}" />
+                                <!-- 进入ueditor编辑器结束 -->
+                                    
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+
+                            <div class="col-md-offset-2 col-md-9">
+                                <button class="btn btn-info submit" type="button">
+                                    <i class="icon-ok bigger-110"></i>
+                                    Submit
+                                </button>
+
+                                &nbsp; &nbsp; &nbsp;
+                                <button class="btn" type="reset">
+                                    <i class="icon-undo bigger-110"></i>
+                                    Reset
+                                </button>
+                            </div>
+
+                            <!-- PAGE CONTENT ENDS -->
+
+
+                        </form>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        // $("#tabs").tabs();
+        // var editor = KindEditor.create('textarea[name="content"]', {
+        //     uploadJson: '__PUBLIC__/kindeditor/php/upload_json.php',
+        //     fileManagerJson: '__PUBLIC__/kindeditor/php/file_manager_json.php',
+        //     allowFileManager: true,
+        //     afterBlur: function () {
+        //         this.sync();
+        //     }
+        // });
+        $(".submit").click(function () {
+            var sid = $("#sid").val();
+            var title = $("#title").val();
+            var title_en = $("#title_en").val();
+            var content = $("#content").val();
+            if (sid == 0) {
+                bootbox.dialog({
+                    title: 'friendly reminder：',
+                    message: "Articles must be selected。",
+                    buttons: {
+                        "success": {
+                            "label": "determine",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+            }
+            if (title == '' && title_en == '') {
+                bootbox.dialog({
+                    title: 'friendly reminder：',
+                    message: "You must fill in one of the Chinese and English titles of the article.",
+                    buttons: {
+                        "success": {
+                            "label": "determine",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+            }
+            if (content == '') {
+                bootbox.dialog({
+                    title: 'friendly reminder：',
+                    message: "The content of the article needs to be filled in。",
+                    buttons: {
+                        "success": {
+                            "label": "determine",
+                            "className": "btn-danger"
+                        }
+                    }
+                });
+                return;
+                return;
+            }
+            $("#form").submit();
+        });
+    });
+</script>
+</body>
+</html>

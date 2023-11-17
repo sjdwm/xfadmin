@@ -1,0 +1,267 @@
+  <table class="table table-hover" id="myuser">
+      <thead>
+      
+        <tr>
+          <th><input  type="checkbox"  id="quan" quan="0" style="width: 16px;height: 16px;vertical-align: -3px;" > 用户ID</th>
+          <th>姓名</th>
+          <th>用户名</th>          
+          <th>在职状态</th> 
+          <th>启用状态</th>        
+          <th>用户组</th>
+          <th>公司</th>
+          <th>部门</th>
+          <th>职务</th>
+           <th>邮箱</th>
+          <th>登录时间</th>
+          <th>注册时间</th>
+          
+          
+          <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操 作</th>
+        </tr>
+      </thead>
+      <tbody >
+        <volist name="list" id="vo">
+        <tr>
+          <td><input  type="checkbox" class="user" id="us{$vo.id}" xuan="0" check="{$vo.id}" onclick="dan({$vo.id})" style="width: 16px;height: 16px;vertical-align: -3px;" > {$vo.id}</td>
+          <td>{$vo.name}</td>
+          <td>{$vo.username}</td>
+          <td><div id="bt{$vo.id}" class="{$vo['status'] == '0'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$vo['status'] == '0'?'style="color:#089641;"':'style="color:red;"'} onClick="redoit({$vo.id},'bt{$vo.id}')">
+          </div></td>
+          <td><div id="btt{$vo.id}" class="{$vo['stop'] == '0'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$vo['stop'] == '0'?'style="color:#089641;"':'style="color:red;"'} onClick="redoitt({$vo.id},'btt{$vo.id}')">
+          </div></td>
+          <td>{:user_group($vo['id'])}</td>
+          <td>{:user_company($vo['mid'])}</td>
+          <td>{:user_company($vo['gid'])}</td>
+          <td>{$vo.post}</td>
+          <td>{$vo.email}</td>
+          
+          <td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$vo['login_time']))}</td>
+          <td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$vo['reg_time']))}</td>
+          <td>
+            <a href="{:U('edit',array('uid'=>$vo['id']))}" class="bbtn bbtn-primary">修改</a>
+            <!-- <span data-toggle="modal" data-target="#myModalw" class="btn btn-primary" onClick="edituser({$vo.id})">修改</span> -->
+            <!-- <span data-toggle="modal" data-target="#modalshow" class="bbtn bbtn-success" onClick="showuser({$vo.id})">查看</span> -->
+            <a href="{:U('show', array('uid'=>$vo['id']))}" class="bbtn bbtn-success">查看</a>
+            <!-- <a href="{:U('pashow', array('id'=>$vo['u_id']))}" class="btn btn-info">密码</a> -->
+            <span data-toggle="modal" data-target="#myModalp" class="bbtn bbtn-info" onClick="edituserpwd({$vo.id},'{$vo.username}')">密码</span>
+            <!-- <a href="{:U('delete', array('id'=>$vo['u_id']))}" class="btn btn-danger">删除</a> -->
+            <!-- <span  class="btn btn-danger" onClick="dell({$vo.id},this)">删除</span> -->
+          </td>
+        </tr>
+        </volist>
+        <tr>
+                <td colspan=13>
+                   <div class=>
+                      <ul class="pagination pagination-xs pagination-custom">
+                        {$show}
+                      </ul>
+                    </div>
+                </td>
+              </tr>
+      </tbody>
+    </table>
+<!-- 密码修改Modal -->
+  <div class="modal fade" id="myModalp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+        </div>
+        <div class="modal-body">
+          <form action="{:U('pass')}" method='post' class="form-horizontal" id='form-pass'>
+            <div class="form-group">
+          <label for="inputEmail3" class="col-sm-3 control-label">用户账号</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control vip" id="input11" name="" value="" disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-3 control-label">用户密码</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="input22" name="password" value="" required>
+          </div>
+        </div>
+          <div class="form-group">
+          <label for="inputPassword3" class="col-sm-3 control-label">确认密码</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="input33" name="repassword" value="" required>
+          </div>
+        </div>
+      
+          <input type="hidden" name="uid" id="uid" value="">
+          <input type="hidden" name="username" id="username" value="">
+        
+          </form>
+        </div>
+        <div class="modal-footer">       
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" form="form-pass" onClick="editpwd()">修改</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+ $(".pagination a").click(function(){
+ cur_page = $(this).data('p');
+ lists(cur_page);
+ });
+ $('#count').text({$count});
+ //全选框删除会员
+        $("#quan").click(function(){
+          if($("#quan").attr('quan') == 1){
+            $("#quan").attr('quan',0);
+            $(".user").attr('xuan',0);
+            $("input").each(function(i){
+              this.checked = 0;
+            });
+            
+          }else{
+            $("#quan").attr('quan',1);
+            $(".user").attr('xuan',1)
+            $("input").each(function(i){
+              this.checked = 1;
+            });
+            
+
+          }
+        })
+        //单选删除会员
+        function dan(a){
+          if($('#us'+a).attr('xuan') == 1){
+            $('#us'+a).attr('xuan',0);
+            $('#us'+a).each(function(i){
+              this.checked = 0;
+            });
+            $("#quan").each(function(i){
+              this.checked = 0;
+            });
+            }else{
+            $('#us'+a).attr('xuan',1);
+            $('#us'+a).each(function(i){
+              this.checked = 1;
+            });
+            
+            $("#quan").each(function(i){
+              this.checked = 0;
+            });
+            
+            
+          }
+        }
+        //执行单选删除会员
+        function del(){
+          //console.log($(".user").length);
+          $(".user").each(function(i){
+              var uid=$(this).attr('check');
+              var xuan=$(this).attr('xuan');
+              if(uid >= 1 && xuan == 1){
+              $.ajax({
+                    url:"{:U('del')}",
+                    type:'get',
+                    data:('uid='+uid),
+                    success:function(value){
+                      //alert(value);
+                                  
+                    window.location.reload(); 
+
+                    }
+                   });
+              }
+            });
+          
+        }
+        //停用账户
+        function redoitt(b,c){
+            //var bt=window.document.getElementById(c);
+            restt = $('#'+c).hasClass('glyphicon glyphicon-remove ds');
+            if(b==1){
+              layer.msg('超级管理员不可以禁用', {icon: 0});
+              return;
+            }
+            if(restt !== true){
+              //bt.innerHTML="禁用";
+              $('#'+c).attr("class","glyphicon glyphicon-remove ds");
+              $('#'+c).attr("style","color:red");
+              restt = 0;
+              sstop('0',b);                    
+            }else{
+              //bt.innerHTML="正常";
+              $('#'+c).attr('class','glyphicon glyphicon-ok ds');
+              $('#'+c).attr("style","color:#089641;");
+               restt = 1;  
+              sstop('1',b);                  
+            }
+          }
+          //设置是否停用账户
+          function sstop(a,b){
+            
+             $.ajax({
+              url:'{:U('userstop')}',
+              type:'get',
+              data:"v="+a+'&id='+b,
+              success:function(value){
+                //alert(value);
+              }
+             });
+          } 
+          //在职状态
+        function redoit(b,c){
+            //var bt=window.document.getElementById(c);
+            restt = $('#'+c).hasClass('glyphicon glyphicon-remove ds');
+            if(b==1){
+              layer.msg('超级管理员不可以修改', {icon: 0});
+              return;
+            }
+            if(restt !== true){
+              //bt.innerHTML="禁用";
+              $('#'+c).attr("class","glyphicon glyphicon-remove ds");
+              $('#'+c).attr("style","color:red");
+              restt = 0;
+              stop('0',b);                    
+            }else{
+              //bt.innerHTML="正常";
+              $('#'+c).attr('class','glyphicon glyphicon-ok ds');
+              $('#'+c).attr("style","color:#089641;");
+               restt = 1;  
+              stop('1',b);                  
+            }
+          }
+          //设置在职状态
+          function stop(a,b){
+            
+             $.ajax({
+              url:'{:U('userstatus')}',
+              type:'get',
+              data:"v="+a+'&id='+b,
+              success:function(value){
+                //alert(value);
+              }
+             });
+          } 
+        //ajax修改用户密码
+        function edituserpwd(a,b){
+          //p是获取当前分页信息传到控制器
+          $('#input11').val(b);  
+          $('#uid').val(a);  
+          $('#username').val(b);  
+  
+        }
+        function editpwd(){
+        $.ajax({
+          url:"/Admin/member/pass",
+          type:'post',
+          data:$('#form-pass').serialize(),
+          success:function(data){
+            if(data.code==0){
+              layer.msg(data.msg, {icon: 0});
+            }else if(data.code==1){
+              layer.msg(data.msg, {icon: 0});
+            }else if(data.code==2){
+              layer.msg(data.msg, {icon: 1});
+            }
+          
+          }
+        });
+      } 
+</script>

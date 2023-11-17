@@ -9,6 +9,39 @@
  *
  **/
 
+//清除数组中所有字符串两端空格
+function TrimArray($Input){
+    if (!is_array($Input))
+        return trim($Input);
+    return array_map('TrimArray', $Input);
+}
+//显示用户所在公司及部门
+function user_company($mid){
+    $mid = explode(',',$mid);
+    $group = '';
+
+    foreach ($mid as $key => $value) {
+        $group .= M('company')->where(array('id'=>$value))->getField('cname').',';
+        //两个组以上的就显示多个用户组
+        if($key>1){
+            return '多个属性';exit;
+        }
+    }
+    return substr($group,0, -1);
+}
+/**
+ *
+ * 获取用户信息
+ *
+ **/
+function member($id, $field = false){
+    $model = M('users');
+    if ($field) {
+        return $model->field($field)->where(array('id' => $id))->find();
+    } else {
+        return $model->where(array('id' => $id))->find();
+    }
+}
 /**
  * 管理员操作记录
  * @param $rank 日志类型,1为登录日志
@@ -215,6 +248,242 @@ function articleUrl($data)
     $articleUrl = $categoryUrl . '/' . $aid . ".html";
     return $articleUrl;
 
+}
+/**  
+ * 获取客户端浏览器信息
+ * @param   null  
+ * @author  https://hotxf.com
+ * @return  string   
+ */  
+function get_broswer(){
+    $sys = $_SERVER['HTTP_USER_AGENT'];  //获取用户代理字符串  
+    if (stripos($sys, "Firefox/") > 0) {  
+        preg_match("/Firefox\/([^;)]+)+/i", $sys, $b);  
+        $exp[0] = "Firefox";  
+        $exp[1] = $b[1];    //获取火狐浏览器的版本号  
+    } elseif (stripos($sys, "Maxthon") > 0) {  
+        preg_match("/Maxthon\/([\d\.]+)/", $sys, $aoyou);  
+        $exp[0] = "傲游";  
+        $exp[1] = $aoyou[1];  
+    } elseif (stripos($sys, "MSIE") > 0) {  
+        preg_match("/MSIE\s+([^;)]+)+/i", $sys, $ie);  
+        $exp[0] = "IE";  
+        $exp[1] = $ie[1];  //获取IE的版本号  
+    } elseif (stripos($sys, "OPR") > 0) {  
+        preg_match("/OPR\/([\d\.]+)/", $sys, $opera);  
+        $exp[0] = "Opera";  
+        $exp[1] = $opera[1];    
+    } elseif(stripos($sys, "Edge") > 0) {  
+        //win10 Edge浏览器 添加了chrome内核标记 在判断Chrome之前匹配  
+        preg_match("/Edge\/([\d\.]+)/", $sys, $Edge);  
+        $exp[0] = "Edge";  
+        $exp[1] = $Edge[1];  
+    } elseif (stripos($sys, "Chrome") > 0) {  
+        preg_match("/Chrome\/([\d\.]+)/", $sys, $google);  
+        $exp[0] = "Chrome";  
+        $exp[1] = $google[1];  //获取google chrome的版本号  
+    } elseif(stripos($sys,'rv:')>0 && stripos($sys,'Gecko')>0){  
+        preg_match("/rv:([\d\.]+)/", $sys, $IE);  
+        $exp[0] = "IE";  
+        $exp[1] = $IE[1];  
+    }else {  
+        $exp[0] = "未知浏览器";  
+        $exp[1] = "";   
+    }  
+    return $exp;  
+}
+/**  
+ * 获取客户端操作系统信息,包括win10 
+ * @param   null  
+ * @author  http://hotxf.com
+ * @return  string   
+ */  
+function get_os(){
+    $agent = $_SERVER['HTTP_USER_AGENT'];
+    $os = false;
+    if (preg_match('/win/i', $agent) && preg_match('/nt 6.0/i', $agent))  
+    {  
+      $os = 'Windows Vista';  
+    }  
+    else if (preg_match('/win/i', $agent) && preg_match('/nt 6.1/i', $agent))  
+    {  
+      $os = 'Windows 7';  
+    }  
+      else if (preg_match('/win/i', $agent) && preg_match('/nt 6.2/i', $agent))  
+    {  
+      $os = 'Windows 8';  
+    }else if(preg_match('/win/i', $agent) && preg_match('/nt 10.0/i', $agent))  
+    {  
+      $os = 'Windows 10';#添加win10判断  
+    }else if (preg_match('/win/i', $agent) && preg_match('/nt 5.1/i', $agent))  
+    {  
+      $os = 'Windows XP';  
+    }  
+    else if (preg_match('/win/i', $agent) && preg_match('/nt 5/i', $agent))  
+    {  
+      $os = 'Windows 2000';  
+    }  
+    else if (preg_match('/win/i', $agent) && preg_match('/nt/i', $agent))  
+    {  
+      $os = 'Windows NT';  
+    }  
+    else if (preg_match('/win/i', $agent) && preg_match('/32/i', $agent))  
+    {  
+      $os = 'Windows 32';  
+    }  
+    else if (preg_match('/linux/i', $agent))  
+    {  
+      $os = 'Linux';  
+    }  
+    else if (preg_match('/unix/i', $agent))  
+    {  
+      $os = 'Unix';  
+    }  
+    else if (preg_match('/sun/i', $agent) && preg_match('/os/i', $agent))  
+    {  
+      $os = 'SunOS';  
+    }  
+    else if (preg_match('/ibm/i', $agent) && preg_match('/os/i', $agent))  
+    {  
+      $os = 'IBM OS/2';  
+    }  
+    else if (preg_match('/Mac/i', $agent) && preg_match('/PC/i', $agent))  
+    {  
+      $os = 'MAC';  
+    }  
+    else if (preg_match('/PowerPC/i', $agent))  
+    {  
+      $os = 'PowerPC';  
+    }  
+    else if (preg_match('/AIX/i', $agent))  
+    {  
+      $os = 'AIX';  
+    }  
+    else if (preg_match('/HPUX/i', $agent))  
+    {  
+      $os = 'HPUX';  
+    }  
+    else if (preg_match('/NetBSD/i', $agent))  
+    {  
+      $os = 'NetBSD';  
+    }  
+    else if (preg_match('/BSD/i', $agent))  
+    {  
+      $os = 'BSD';  
+    }  
+    else if (preg_match('/OSF1/i', $agent))  
+    {  
+      $os = 'OSF1';  
+    }  
+    else if (preg_match('/IRIX/i', $agent))  
+    {  
+      $os = 'IRIX';  
+    }  
+    else if (preg_match('/FreeBSD/i', $agent))  
+    {  
+      $os = 'FreeBSD';  
+    }  
+    else if (preg_match('/teleport/i', $agent))  
+    {  
+      $os = 'teleport';  
+    }  
+    else if (preg_match('/flashget/i', $agent))  
+    {  
+      $os = 'flashget';  
+    }  
+    else if (preg_match('/webzip/i', $agent))  
+    {  
+      $os = 'webzip';  
+    }  
+    else if (preg_match('/offline/i', $agent))  
+    {  
+      $os = 'offline';  
+    }  
+    else  
+    {  
+      $os = '未知操作系统';  
+    }  
+    return $os;    
+}
+/**
+ * 发送邮件
+ * @param  string $address 需要发送的邮箱地址 发送给多个地址需要写成数组形式
+ * @param  string $addcc 需要抄送的邮箱地址 发送给多个地址需要写成数组形式
+ * @param  string $subject 标题
+ * @param  string $content 内容
+ * @param  array $user    发件账号array('name','pwd')
+ * @return boolean       是否成功
+ */
+function send_email($address,$subject,$content,$user='',$addcc){
+    if(empty($user)){
+        $email_username=C('EMAIL_USERNAME');
+        $email_password=C('EMAIL_PASSWORD');
+        $email_from_name=C('EMAIL_FROM_NAME');
+    }else{
+        $email_username=$user['name'];
+        $email_password=$user['pwd'];
+        $email_from_name=$user['name'];
+    }    
+    $email_smtp=C('EMAIL_SMTP');
+    $email_smtp_secure=C('EMAIL_SMTP_SECURE');
+    $email_port=C('EMAIL_PORT');
+    if(empty($email_smtp) || empty($email_username) || empty($email_password) || empty($email_from_name)){
+        return array("error"=>1,"message"=>'邮箱配置不完整');
+    }
+    require_once './App/Common/Org/class.phpmailer.php';
+    require_once './App/Common/Org/class.smtp.php';
+    $phpmailer=new \Phpmailer();
+    // 设置PHPMailer使用SMTP服务器发送Email
+    $phpmailer->IsSMTP();
+    // 设置设置smtp_secure
+    $phpmailer->SMTPSecure=$email_smtp_secure;
+    // 设置port
+    $phpmailer->Port=$email_port;
+    // 设置为html格式
+    $phpmailer->IsHTML(true);
+    // 设置邮件的字符编码'
+    $phpmailer->CharSet='UTF-8';
+    // 设置SMTP服务器。
+    $phpmailer->Host=$email_smtp;
+    // 设置为"需要验证"
+    $phpmailer->SMTPAuth=true;
+    // 设置用户名
+    $phpmailer->Username=$email_username;
+    // 设置密码
+    $phpmailer->Password=$email_password;
+    // 设置邮件头的From字段。
+    $phpmailer->From=$email_username;
+    // 设置发件人名字
+    $phpmailer->FromName=$email_from_name;
+    // 添加收件人地址，可以多次使用来添加多个收件人
+    if(is_array($address)){
+        foreach($address as $addressv){
+            $phpmailer->AddAddress($addressv);
+        }
+    }else{
+        $phpmailer->AddAddress($address);
+    }
+    //添加抄送人地址
+    if(!empty($addcc)){
+        if(is_array($addcc)){
+            foreach($addcc as $addccv){
+                $phpmailer->AddCC($addccv);
+            }
+        }else{
+            $phpmailer->AddCC($addcc);
+        }
+    }
+    // 设置邮件标题
+    $phpmailer->Subject=$subject;
+    // 设置邮件正文
+    $phpmailer->Body=$content;
+    // 发送邮件。
+    if(!$phpmailer->Send()) {
+        $phpmailererror=$phpmailer->ErrorInfo;
+        return array("error"=>1,"message"=>$phpmailererror);
+    }else{
+        return array("error"=>0);
+    }
 }
 
 

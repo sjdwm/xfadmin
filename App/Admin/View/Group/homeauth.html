@@ -1,0 +1,234 @@
+<include file="Public/head"/>
+<style>
+.cshow{display: none;}
+.shows{display: none;}
+.xshow{cursor: pointer;}
+.biao{font-size: 30px;
+    vertical-align: middle;
+    margin-top: -4px;}
+</style>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="cf">
+                                <a class="btn btn-info" href="{:U('homeauthadd')}" value="">新增</a>
+                            </div>
+                            <div class="space-4"></div>
+                            <form id="form" method="post" action="{:U('homedel')}">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="center"><input class="check-all" type="checkbox" value=""></th>
+                                        <th>菜单名称</th>
+                                        <th>链接</th>
+                                        <th>ICON</th>
+                                        <th class="center">状态</th>
+                                        <th>排序</th>
+                                        <th class="center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="list" id="val">
+                                        <tr id="c{$val['id']}" c{$val['id']}="0"  onclick="show(<if condition="$val.pid eq '0'">{$val['id']}</if>);" class="xshow <if condition="$val.pid neq '0'">cshow</if>">
+                                            <td class="center">
+                                                <input class="ids" type="checkbox" name="ids[]" value="{$val['id']}">
+                                            </td>
+                                            <td><if condition="$val.pid eq '0'"><i id="d{$val['id']}" class="menu-icon fa fa-angle-right biao"></i></if> &nbsp;{$val['_name']}  {$val['title']}</td>
+                                            <td>{$val['url']}</td>
+                                            <td><i class="{$val.icon}"></i></td>
+                                            <td class="center">
+                                                <if condition="$val.islink eq 1">显示
+                                                    <else/>
+                                                    隐藏
+                                                </if>
+                                            </td>
+                                            <td>{$val['o']}</td>
+                                            <td class="center">
+                                            <a class="green" href="{:U('homeauthadd',array('pid'=>$val['id']))}"
+                                                     title="新增分类"><i class="ace-icon fa fa-plus-circle bigger-100"></i>新增</a>&nbsp;&nbsp;
+                                            <a class="blue" href="{:U('homeauthedit',array('id'=>$val['id']))}"><i class="ace-icon fa fa-plus-circle bigger-100"></i>修改</a>&nbsp;<a
+                                                    class="red del" href="javascript:;" val="{:U('homedel',array('ids'=>$val['id']))}"
+                                                    title="删除"><i class="ace-icon fa fa-plus-circle bigger-100"></i>删除</a></td>
+                                        </tr>
+                                 <!--        <notempty name="val.children">
+                                     <volist name="val.children" id="v">
+                                         <tr>
+                                             <td class="center">
+                                                 <input class="ids" type="checkbox" name="ids[]"
+                                                        value="{$v['id']}">
+                                             </td>
+                                             <td>┗━{$v['title']}</td>
+                                             <td>{$v['name']}</td>
+                                             <td><i class="{$v.icon}"></i></td>
+                                             <td class="center">
+                                                 <if condition="$v.islink eq 1">显示
+                                                     <else/>
+                                                     隐藏
+                                                 </if>
+                                             </td>
+                                             <td>{$v['o']}</td>
+                                             <td class="center"><a href="{:U('edit',array('id'=>$v['id']))}">修改</a>&nbsp;<a
+                                                     class="del" href="javascript:;"
+                                                     val="{:U('del',array('ids'=>$v['id']))}" title="删除">删除</a></td>
+                                         </tr>
+                                         <notempty name="v.children">
+                                             <volist name="v.children" id="vv">
+                                                 <tr>
+                                                     <td class="center">
+                                                         <input class="ids" type="checkbox" name="ids[]"
+                                                                value="{$vv['id']}">
+                                                     </td>
+                                                     <td>&nbsp;&nbsp;&nbsp;&nbsp;┗━{$vv['title']}</td>
+                                                     <td>{$vv['name']}</td>
+                                                     <td><i class="{$vv.icon}"></i></td>
+                                                     <td class="center">
+                                                         <if condition="$vv.islink eq 1">显示
+                                                             <else/>
+                                                             隐藏
+                                                         </if>
+                                                     </td>
+                                                     <td>{$vv['o']}</td>
+                                                     <td class="center"><a
+                                                             href="{:U('edit',array('id'=>$vv['id']))}">修改</a>&nbsp;<a
+                                                             class="del" href="javascript:;"
+                                                             val="{:U('del',array('ids'=>$vv['id']))}" title="删除">删除</a>
+                                                     </td>
+                                                 </tr>
+                                             </volist>
+                                         </notempty>
+                                     </volist>
+                                 </notempty> -->
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="cf">
+                                <input id="submit" class="btn btn-info" type="button" value="删除">
+                            </div>
+                            {$page}
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    $(function () {
+        $(".check-all").click(function () {
+            $(".ids").prop("checked", this.checked);
+        });
+        $(".ids").click(function () {
+            var option = $(".ids");
+            option.each(function (i) {
+                if (!this.checked) {
+                    $(".check-all").prop("checked", false);
+                    return false;
+                } else {
+                    $(".check-all").prop("checked", true);
+                }
+            });
+        });
+        $("#submit").click(function () {
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除所选？",
+                callback: function (result) {
+                    if (result) {
+                        $("#form").submit();
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+$(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "确定要删除?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+    })
+    //用户权限下级菜单的显示与隐藏
+    var s = 0;
+    function show(a){
+        if(a){
+            //s=0;
+            $.ajax({
+            url:"{:U('Group/is_show')}",
+            data:{'pid':a},
+            type:'get',
+            success:function(data){
+               
+                   var s = $('#c'+a).attr("c"+a);
+                    if(s==0){
+                        $('#c'+a).attr("c"+a,1);
+                         $.each(data,function(k,v) { 
+                            $('#c'+v.id).removeClass("cshow");
+                          });
+
+                         $('#d'+a).removeClass("fa-angle-right");
+                         $('#d'+a).addClass("fa-angle-down");
+                    }else{
+                        $('#c'+a).attr("c"+a,0);
+                         $.each(data,function(k,v) { 
+                            $('#c'+v.id).addClass("cshow");
+                         });
+                         $('#d'+a).removeClass("fa-angle-down");
+                         $('#d'+a).addClass("fa-angle-right");
+                    }
+                    
+              
+            }
+        });
+        }
+    }
+</script>
+</body>
+</html>

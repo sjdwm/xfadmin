@@ -1,0 +1,200 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <form class="form-inline" action="" method="post" id="formuser" enctype="multipart/form-data">
+                                <a class="btn btn-info" href="javascript:void(0);" onclick="adduser()" title="添加下面用户到当前组">添加</a>
+                                <label class="inline">用户搜索</label>
+                                <select name="field" class="form-control">
+                                    <option <if condition="I('field') eq username">selected</if> value="username">用户名</option>
+                                    <option <if condition="I('field') eq name">selected</if> value="name">姓名</option>
+                                    
+                                    <option <if condition="I('field') eq email">selected</if> value="email">邮箱</option>
+                                </select>
+                                <input type="text" name="keyword" value="{:I(keyword)}" class="form-control">
+                                <label class="inline">当前用户组</label>
+                                <select name="group" class="form-control">                                   
+                                                                         
+                                      <option  value="{$usergroup['id']}">{$usergroup['title']}</option>           
+                                     
+                                </select>
+                                <label class="inline">&nbsp;&nbsp;排序：</label>
+                                <select name="order" class="form-control">
+                                    <option  value="2">注册时间升</option>
+                                    <option  value="3">注册时间降</option>
+                                    <option  value="4">登录时间升</option>
+                                    <option  value="5">登录时间降</option>
+                                </select>
+                                <button type="submit" class="btn btn-purple btn-sm" >
+                                    <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                    Search
+                                </button>
+                            </form>
+                        </div>
+                        <div class="space-4"></div>
+                        <div class="row">
+             
+                            <table class="table table-hover" id="myuser">
+      <thead>
+      
+        <tr>
+          <th><input  type="checkbox"  id="quan" quan="0" style="width: 16px;height: 16px;vertical-align: -3px;" > 用户ID</th>
+          <th>姓名</th>
+          <th>用户名</th>
+          <th>启用状态</th>
+          <th>激活状态</th>         
+          <th>用户组</th>
+           <th>邮箱</th>
+          <th>登录时间</th>
+          <th>注册时间</th>
+          
+          
+          <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操 作</th>
+        </tr>
+      </thead>
+      <tbody >
+        <volist name="list" id="vo">
+        <tr>
+          <td><input  type="checkbox" class="user" id="us{$vo.id}" xuan="0" check="{$vo.id}" onclick="dan({$vo.id})" style="width: 16px;height: 16px;vertical-align: -3px;" > {$vo.id}</td>
+          <td>{$vo.name}</td>
+          <td>{$vo.username}</td>
+          <td><div id="btt{$vo.id}" class="{$vo['status'] == '0'?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$vo['status'] == '0'?'style="color:#089641;"':'style="color:red;"'} onClick="redoitt({$vo.id},'btt{$vo.id}')">
+          </div></td>
+          <td><div id="btt{$vo.id}" class="{$vo['stop'] == ''?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'} ds" {$vo['stop'] == ''?'style="color:#089641;"':'style="color:red;"'} onClick="redoitt({$vo.id},'btt{$vo.id}')">
+          </div></td>
+          <td>{:user_group($vo['id'])}</td>
+          <td>{$vo.email}</td>
+          
+          <td>{:date("Y-m-d H:i:s", strtotime("+8 hours", $vo['lastvisitdate']))}</td>
+          <td>{:date("Y-m-d H:i:s", strtotime("+8 hours", $vo['registerdate']))}</td>
+          <td>
+            <a href="{:U('Member/edit',array('uid'=>$vo['id']))}" class="bbtn bbtn-primary">修改</a>
+            <!-- <span data-toggle="modal" data-target="#myModalw" class="btn btn-primary" onClick="edituser({$vo.id})">修改</span> -->
+            <span data-toggle="modal" data-target="#modalshow" class="bbtn bbtn-success" onClick="showuser({$vo.id})">查看</span>
+            <!-- <a href="{:U('show', array('id'=>$vo['u_id']))}" class="btn btn-success">查看</a> -->
+            <!-- <a href="{:U('pashow', array('id'=>$vo['u_id']))}" class="btn btn-info">密码</a> -->
+            <span data-toggle="modal" data-target="#myModalp" class="bbtn bbtn-info" onClick="edituserpwd({$vo.id})">密码</span>
+            <!-- <a href="{:U('delete', array('id'=>$vo['u_id']))}" class="btn btn-danger">删除</a> -->
+            <!-- <span  class="btn btn-danger" onClick="dell({$vo.id},this)">删除</span> -->
+          </td>
+        </tr>
+        </volist>
+        
+      </tbody>
+    </table>
+    <div style="text-align: center;">
+          {$show}
+                 
+        </div>
+        
+
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+
+ <script>
+            $('.current').addClass('vi');
+          </script>  
+<script>
+ 
+ $('#count').text({$count});
+ //全选框删除会员
+        $("#quan").click(function(){
+          if($("#quan").attr('quan') == 1){
+            $("#quan").attr('quan',0);
+            $(".user").attr('xuan',0);
+            $("input").each(function(i){
+              this.checked = 0;
+            });
+            
+          }else{
+            $("#quan").attr('quan',1);
+            $(".user").attr('xuan',1)
+            $("input").each(function(i){
+              this.checked = 1;
+            });
+            
+
+          }
+        })
+        //单选删除会员
+        function dan(a){
+          if($('#us'+a).attr('xuan') == 1){
+            $('#us'+a).attr('xuan',0);
+            $('#us'+a).each(function(i){
+              this.checked = 0;
+            });
+            $("#quan").each(function(i){
+              this.checked = 0;
+            });
+            }else{
+            $('#us'+a).attr('xuan',1);
+            $('#us'+a).each(function(i){
+              this.checked = 1;
+            });
+            
+            $("#quan").each(function(i){
+              this.checked = 0;
+            });
+            
+            
+          }
+        }
+        //执行单选删除会员
+        function adduser(){
+          //console.log($(".user").length);
+          var gid = {$usergroup['id']};
+          $(".user").each(function(i){
+              var uid=$(this).attr('check');
+              var xuan=$(this).attr('xuan');
+              if(uid >= 1 && xuan == 1){
+              $.ajax({
+                    url:"{:U('addusergroup')}",
+                    type:'get',
+                    data:('uid='+uid+'&gid='+gid),
+                    success:function(value){
+                      //alert(value);
+                                  
+                    window.location.reload(); 
+
+                    }
+                   });
+              }
+            });
+          
+        }
+</script>
+</body>
+</html>
