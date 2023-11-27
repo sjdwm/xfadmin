@@ -148,8 +148,8 @@ switch ($step) {
             } else {
 				$result = mysqli_query($conn,"SELECT @@global.sql_mode");				
 				$result = $result->fetch_array();
-				if(strstr($result[0],'STRICT_TRANS_TABLES') || strstr($result[0],'STRICT_ALL_TABLES') || strstr($result[0],'TRADITIONAL') || strstr($result[0],'ANSI'))				
-					exit(json_encode(-1));
+				/*if(strstr($result[0],'STRICT_TRANS_TABLES') || strstr($result[0],'STRICT_ALL_TABLES') || strstr($result[0],'TRADITIONAL') || strstr($result[0],'ANSI'))				
+					exit(json_encode(-1));*/
 				@mysqli_query($conn,"drop database `" . $dbName . "`");
                 exit(json_encode(1));
             }
