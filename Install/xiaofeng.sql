@@ -317,52 +317,13 @@ CREATE TABLE `xf_log` (
   `ip` varchar(16) NOT NULL,
   `log` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xf_log
 -- ----------------------------
 INSERT INTO `xf_log` VALUES ('1', 'admin', '1699274240', '127.0.0.1', '备份完成！');
-INSERT INTO `xf_log` VALUES ('2', 'admin', '1699274816', '127.0.0.1', '还原完成！');
-INSERT INTO `xf_log` VALUES ('3', 'admin', '1699274858', '127.0.0.1', '还原完成！');
-INSERT INTO `xf_log` VALUES ('4', 'admin', '1699320743', '127.0.0.1', '登录失败。');
-INSERT INTO `xf_log` VALUES ('5', 'admin', '1699320754', '127.0.0.1', '登录失败。');
-INSERT INTO `xf_log` VALUES ('6', 'admin', '1699320775', '127.0.0.1', '登录成功。');
-INSERT INTO `xf_log` VALUES ('7', 'admin', '1699338043', '127.0.0.1', '登录成功(记住密码),用户名:');
-INSERT INTO `xf_log` VALUES ('8', 'admin', '1699506606', '127.0.0.1', '登录成功(记住密码),用户名:');
-INSERT INTO `xf_log` VALUES ('9', '', '1699517816', '127.0.0.1', '编辑用户组，ID：2，组名：管理员');
-INSERT INTO `xf_log` VALUES ('10', '', '1699517827', '127.0.0.1', '编辑用户组，ID：2，组名：管理员');
-INSERT INTO `xf_log` VALUES ('11', '', '1699524309', '127.0.0.1', '新增用户组，ID：0，组名：3333');
-INSERT INTO `xf_log` VALUES ('12', '', '1699524414', '127.0.0.1', '新增菜单，名称：后台权限');
-INSERT INTO `xf_log` VALUES ('13', '', '1699524456', '127.0.0.1', '新增菜单，名称：前台权限');
-INSERT INTO `xf_log` VALUES ('14', '', '1699532041', '127.0.0.1', '新增菜单，名称：查看用户信息');
-INSERT INTO `xf_log` VALUES ('15', '', '1699532146', '127.0.0.1', '编辑菜单，ID：66');
-INSERT INTO `xf_log` VALUES ('16', '', '1699532282', '127.0.0.1', '新增菜单，名称：组添加人员');
-INSERT INTO `xf_log` VALUES ('17', '', '1699532350', '127.0.0.1', '新增菜单，名称：增加后台权限');
-INSERT INTO `xf_log` VALUES ('18', '', '1699532387', '127.0.0.1', '新增菜单，名称：后台权限修改');
-INSERT INTO `xf_log` VALUES ('19', '', '1699532426', '127.0.0.1', '新增菜单，名称：前台权限添加');
-INSERT INTO `xf_log` VALUES ('20', '', '1699532458', '127.0.0.1', '新增菜单，名称：前台权限修改');
-INSERT INTO `xf_log` VALUES ('21', '', '1699532476', '127.0.0.1', '编辑菜单，ID：69');
-INSERT INTO `xf_log` VALUES ('22', '', '1699532685', '127.0.0.1', '新增菜单，名称：公司管理');
-INSERT INTO `xf_log` VALUES ('23', '', '1699532752', '127.0.0.1', '新增菜单，名称：公司管理');
-INSERT INTO `xf_log` VALUES ('24', '', '1699532804', '127.0.0.1', '新增菜单，名称：公司管理-添加');
-INSERT INTO `xf_log` VALUES ('25', '', '1699532835', '127.0.0.1', '新增菜单，名称：公司管理-执行添加修改');
-INSERT INTO `xf_log` VALUES ('26', '', '1699532882', '127.0.0.1', '新增菜单，名称：公司管理-修改页面');
-INSERT INTO `xf_log` VALUES ('27', '', '1699585357', '127.0.0.1', '新增菜单，名称：日志管理');
-INSERT INTO `xf_log` VALUES ('28', '', '1699585420', '127.0.0.1', '新增菜单，名称：用户日志');
-INSERT INTO `xf_log` VALUES ('29', '', '1699585470', '127.0.0.1', '新增菜单，名称：访客日志');
-INSERT INTO `xf_log` VALUES ('30', '', '1699585789', '127.0.0.1', '新增菜单，名称：系统日志');
-INSERT INTO `xf_log` VALUES ('31', '', '1699587851', '127.0.0.1', '编辑菜单，ID：80');
-INSERT INTO `xf_log` VALUES ('32', '', '1699587870', '127.0.0.1', '编辑菜单，ID：78');
-INSERT INTO `xf_log` VALUES ('33', '', '1699589146', '127.0.0.1', '编辑菜单，ID：79');
-INSERT INTO `xf_log` VALUES ('34', '', '1699938798', '127.0.0.1', '编辑菜单，ID：50');
-INSERT INTO `xf_log` VALUES ('35', '', '1699938863', '127.0.0.1', '新增菜单，名称：清除缓存');
-INSERT INTO `xf_log` VALUES ('36', '', '1699943016', '127.0.0.1', '编辑菜单，ID：81');
-INSERT INTO `xf_log` VALUES ('37', '', '1699943041', '127.0.0.1', '编辑菜单，ID：49');
-INSERT INTO `xf_log` VALUES ('38', '', '1699944358', '127.0.0.1', '编辑菜单，ID：43');
-INSERT INTO `xf_log` VALUES ('39', '', '1699944372', '127.0.0.1', '编辑菜单，ID：44');
-INSERT INTO `xf_log` VALUES ('40', '', '1700024311', '127.0.0.1', '删除文章，AID：1');
-INSERT INTO `xf_log` VALUES ('41', '', '1700028250', '127.0.0.1', '删除用户组ID：Array');
+
 
 -- ----------------------------
 -- Table structure for xf_setting
@@ -441,32 +402,13 @@ CREATE TABLE `xf_user_log` (
   `time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '操作时间',
   `rank` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '日志类别',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='用户日志';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户日志';
 
 -- ----------------------------
 -- Records of xf_user_log
 -- ----------------------------
 INSERT INTO `xf_user_log` VALUES ('1', '记住密码用户', '后台登录成功,用户名:admin', '127.0.0.1', '1699338043', '3');
-INSERT INTO `xf_user_log` VALUES ('2', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699339401', '4');
-INSERT INTO `xf_user_log` VALUES ('3', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699339450', '4');
-INSERT INTO `xf_user_log` VALUES ('4', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699339774', '4');
-INSERT INTO `xf_user_log` VALUES ('5', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699339943', '4');
-INSERT INTO `xf_user_log` VALUES ('6', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699340253', '4');
-INSERT INTO `xf_user_log` VALUES ('7', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699340295', '3');
-INSERT INTO `xf_user_log` VALUES ('8', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699340348', '4');
-INSERT INTO `xf_user_log` VALUES ('9', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699340468', '4');
-INSERT INTO `xf_user_log` VALUES ('10', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699340730', '4');
-INSERT INTO `xf_user_log` VALUES ('11', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699340933', '4');
-INSERT INTO `xf_user_log` VALUES ('12', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699341015', '4');
-INSERT INTO `xf_user_log` VALUES ('13', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699341088', '4');
-INSERT INTO `xf_user_log` VALUES ('14', '记住密码用户', '后台登录失败5次,用户名:admin', '127.0.0.1', '1699341227', '4');
-INSERT INTO `xf_user_log` VALUES ('15', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699341299', '3');
-INSERT INTO `xf_user_log` VALUES ('16', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699493685', '3');
-INSERT INTO `xf_user_log` VALUES ('17', 'admin', '后台修改用户密码,用户名:admin2', '127.0.0.1', '1699494345', '5');
-INSERT INTO `xf_user_log` VALUES ('18', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699503154', '3');
-INSERT INTO `xf_user_log` VALUES ('19', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699516479', '3');
-INSERT INTO `xf_user_log` VALUES ('20', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699843663', '3');
-INSERT INTO `xf_user_log` VALUES ('21', 'admin', '后台登录成功,用户名:admin', '127.0.0.1', '1699955283', '3');
+
 
 -- ----------------------------
 -- Table structure for xf_user_login
