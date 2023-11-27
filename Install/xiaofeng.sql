@@ -103,7 +103,7 @@ CREATE TABLE `xf_auth_rule` (
 -- ----------------------------
 -- Records of xf_auth_rule
 -- ----------------------------
-INSERT INTO `xf_auth_rule` VALUES ('1', '0', 'Index/index', null, '控制台', 'menu-icon fa fa-tachometer', '1', '1', '1', '', '1', '1', '友情提示：经常查看操作日志，发现异常以便及时追查原因。');
+INSERT INTO `xf_auth_rule` VALUES ('1', '0', 'Admin/Index/index', null, '控制台', 'menu-icon fa fa-tachometer', '1', '1', '1', '', '1', '1', '友情提示：经常查看操作日志，发现异常以便及时追查原因。');
 INSERT INTO `xf_auth_rule` VALUES ('2', '0', '', null, '系统设置', 'menu-icon fa fa-cog', '1', '1', '1', '', '1', '2', '');
 INSERT INTO `xf_auth_rule` VALUES ('3', '2', 'Admin/Setting/setting', null, '网站设置', 'menu-icon fa fa-caret-right', '1', '1', '1', '', '1', '3', '这是网站设置的提示。');
 INSERT INTO `xf_auth_rule` VALUES ('4', '2', 'Admin/Menu/index', null, '后台菜单', 'menu-icon fa fa-caret-right', '1', '1', '1', '', '1', '4', '');

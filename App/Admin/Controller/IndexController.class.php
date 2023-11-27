@@ -27,12 +27,9 @@ class IndexController extends ComController
             $j =$i - 1;
             $arr[$i] =$this -> day_add(time(),'-'.$i.' day','-'.$j.' day');
         }
-        //留言条数
-        //$liuyan=M('comment')->count('cmtid');
         $this->assign('mysql', $mysql[0]['mysql']);
         $this->assign('users',$count);
         $this -> assign('user_line',$arr);
-        //$this -> assign('liuyan',$liuyan);
         $this->display();
     }
     function day_add($time,$date,$mdate){
